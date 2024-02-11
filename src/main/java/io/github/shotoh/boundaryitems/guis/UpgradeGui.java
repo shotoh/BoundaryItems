@@ -2,6 +2,7 @@ package io.github.shotoh.boundaryitems.guis;
 
 import io.github.shotoh.boundaryitems.utils.GuiUtils;
 import io.github.shotoh.boundaryitems.utils.ItemUtils;
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -27,13 +28,16 @@ public class UpgradeGui extends BoundaryGui {
             if (i == 4) {
                 inv.setItem(i, is);
             } else if (i == 22) {
-                // ascension stairs
+                inv.setItem(i, ItemUtils.createMiscItem("&6Ascension", new String[] {
+                        "&eClick here to upgrade your weapon"
+                }, Material.QUARTZ_STAIRS, null, 1));
             } else if (i == 49) {
-                // close
+                inv.setItem(i, GuiUtils.getGuiClose());
             } else if (!GuiUtils.notBorder(i)) {
-                // purple glass
+                inv.setItem(i, GuiUtils.getGuiGlass(DyeColor.PURPLE.getData()));
             }
         }
+        // todo set enchantments
     }
 
     @Override
@@ -45,10 +49,12 @@ public class UpgradeGui extends BoundaryGui {
     public void onClick(InventoryClickEvent event) {
         super.onClick(event);
         event.setCancelled(true);
+        // todo set clicks
     }
 
     @Override
     public void onClose(InventoryCloseEvent event) {
         super.onClose(event);
+        ItemUtils.addItem(player, is, 1);
     }
 }
