@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 public class EntityListener implements Listener {
     @EventHandler
     public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event) {
+        if (event.isCancelled()) return;
         BoundaryDamage damage = new BoundaryDamage(event.getDamage());
         if (!(event.getDamager() instanceof Player damager) || !(event.getEntity() instanceof Player damagee)) return;
         ItemStack weapon = damager.getItemInHand();

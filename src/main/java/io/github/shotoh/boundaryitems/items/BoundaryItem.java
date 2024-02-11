@@ -1,7 +1,6 @@
 package io.github.shotoh.boundaryitems.items;
 
 import io.github.shotoh.boundaryitems.core.BoundaryDamage;
-import io.github.shotoh.boundaryitems.utils.ItemUtils;
 import io.github.shotoh.boundaryitems.utils.NBTUtils;
 import io.github.shotoh.boundaryitems.utils.Utils;
 import org.bukkit.Material;
