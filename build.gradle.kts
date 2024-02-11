@@ -11,10 +11,14 @@ repositories {
     maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
     maven("https://oss.sonatype.org/content/repositories/snapshots")
     maven("https://oss.sonatype.org/content/repositories/central")
+    maven("https://jitpack.io")
 }
 
 dependencies {
     compileOnly("org.spigotmc:spigot:1.8.8-R0.1-SNAPSHOT")
+    compileOnly("com.github.MilkBowl:VaultAPI:1.7") {
+        exclude("org.bukkit")
+    }
     implementation("org.incendo:cloud-bukkit:2.0.0-beta.2")
 }
 
