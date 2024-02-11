@@ -1,8 +1,11 @@
 package io.github.shotoh.boundaryitems.utils;
 
-import net.minecraft.server.v1_8_R3.NBTTagCompound;
+import io.github.shotoh.boundaryitems.items.ItemPath;
+import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.UUID;
 
 public class NBTUtils {
     public static String getNBTString(ItemStack is, String key) {
@@ -47,5 +50,32 @@ public class NBTUtils {
         } else {
             return null;
         }
+    }
+
+    public static ItemStack addAttributes(ItemStack is, ItemPath path, int itemStat) {
+        String attributeName;
+        if (path == ItemPath.SWORD) {
+            attributeName = "generic.attackDamage";
+        } else if (path.isArmor()) {
+            attributeName = "generic.armor";
+        } else {
+            return is;
+        }
+        net.minecraft.server.v1_8_R3.ItemStack nmsIs = CraftItemStack.asNMSCopy(is);
+        NBTTagCompound compound = nmsIs.getTag();
+        if (compound == null) compound = new NBTTagCompound();
+        NBTTagList modifiers = new NBTTagList();
+        NBTTagCompound modifier = new NBTTagCompound();
+        modifier.set("AttributeName", new NBTTagString(attributeName));
+        modifier.set("Name", new NBTTagString(attributeName));
+        modifier.set("Operation", new NBTTagInt(0));
+        modifier.set("Amount", new NBTTagInt(itemStat));
+        UUID uuid = UUID.randomUUID();
+        modifier.set("UUIDLeast", new NBTTagLong(uuid.getLeastSignificantBits()));
+        modifier.set("UUIDMost", new NBTTagLong(uuid.getMostSignificantBits()));
+        modifiers.add(modifier);
+        compound.set("AttributeModifiers", modifiers);
+        nmsIs.setTag(compound);
+        return CraftItemStack.asBukkitCopy(nmsIs);
     }
 }

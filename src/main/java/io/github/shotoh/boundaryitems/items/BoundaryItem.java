@@ -21,11 +21,11 @@ public final class BoundaryItem {
     private Material material;
     private ItemPath path;
     private int pathWeight;
-    private double itemStat;
+    private int itemStat;
     private UpgradeInfo upgradeInfo;
 
     public BoundaryItem(String id, String name, Material material, ItemPath path, int pathWeight,
-                        double itemStat, UpgradeInfo upgradeInfo) {
+                        int itemStat, UpgradeInfo upgradeInfo) {
         this.id = id;
         this.name = name;
         this.material = material;
@@ -71,11 +71,11 @@ public final class BoundaryItem {
         this.pathWeight = pathWeight;
     }
 
-    public double getItemStat() {
+    public int getItemStat() {
         return itemStat;
     }
 
-    public void setItemStat(double itemStat) {
+    public void setItemStat(int itemStat) {
         this.itemStat = itemStat;
     }
 
@@ -113,26 +113,12 @@ public final class BoundaryItem {
             ).map(Utils::color).toList();
         }
         im.setLore(lore);
-
-        im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         im.spigot().setUnbreakable(true);
 
         is.setItemMeta(im);
         is = NBTUtils.setNBTString(is, ID_KEY, id);
         is = NBTUtils.setNBTInteger(is, MONEY_KEY, 0);
+        is = NBTUtils.addAttributes(is, path, itemStat);
         return is;
-    }
-
-    public void onDamage(ItemStack is, BoundaryDamage damage) {
-        if (is == null) return;
-        if (path == ItemPath.SWORD) {
-            damage.setDamage(itemStat);
-            int sharpness = is.getEnchantmentLevel(Enchantment.DAMAGE_ALL);
-            damage.addAdditive(sharpness * 0.1);
-        } else if (path == ItemPath.HELMET || path == ItemPath.CHESTPLATE || path == ItemPath.LEGGINGS || path == ItemPath.BOOTS) {
-            damage.addDamage(itemStat * -0.25);
-            int protection = is.getEnchantmentLevel(Enchantment.PROTECTION_ENVIRONMENTAL);
-            damage.addAdditive(protection * -0.025);
-        }
     }
 }
