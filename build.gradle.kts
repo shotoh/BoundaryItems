@@ -19,7 +19,7 @@ dependencies {
     compileOnly("com.github.MilkBowl:VaultAPI:1.7") {
         exclude("org.bukkit")
     }
-    implementation("org.incendo:cloud-bukkit:2.0.0-beta.2")
+    implementation("org.incendo:cloud-paper:2.0.0-beta.2")
 }
 
 tasks.getByName<Test>("test") {
