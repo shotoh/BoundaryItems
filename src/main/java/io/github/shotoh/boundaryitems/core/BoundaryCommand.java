@@ -1,4 +1,44 @@
 package io.github.shotoh.boundaryitems.core;
 
+import io.github.shotoh.boundaryitems.BoundaryItems;
+import io.github.shotoh.boundaryitems.items.BoundaryItem;
+import io.github.shotoh.boundaryitems.items.ItemManager;
+import io.github.shotoh.boundaryitems.utils.ItemUtils;
+import io.github.shotoh.boundaryitems.utils.Utils;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.incendo.cloud.Command;
+import org.incendo.cloud.bukkit.BukkitCommandManager;
+import org.incendo.cloud.key.CloudKey;
+import org.incendo.cloud.parser.standard.StringParser;
+import org.incendo.cloud.suggestion.SuggestionProvider;
+
 public class BoundaryCommand {
+    private final BukkitCommandManager<CommandSender> manager;
+    private final Command.Builder<CommandSender> builder;
+
+    public BoundaryCommand(BoundaryItems plugin) {
+        this.manager = plugin.getCommandManager();
+        this.builder = manager.commandBuilder("bi");
+    }
+
+    public void register() {
+        manager.command(builder);
+        manager.command(builder.literal("item")
+                .required("id", StringParser.stringComponent()
+                        .suggestionProvider(SuggestionProvider.suggestingStrings(ItemManager.getInstance().getItems().keySet())))
+                .permission("bi.admin")
+                .senderType(Player.class)
+                .handler(ctx -> {
+                    Player player = ctx.sender();
+                    String id = ctx.get(CloudKey.of("id", String.class));
+                    BoundaryItem item = ItemManager.getInstance().getItem(id);
+                    if (item != null) {
+                        ItemUtils.addItem(player, ItemUtils.createItem(id), 1);
+                        Utils.sendMessage(player, "&5Creating &d" + item.getName());
+                    } else {
+                        Utils.sendMessage(player, "&cUnknown item id: " + id);
+                    }
+                }));
+    }
 }

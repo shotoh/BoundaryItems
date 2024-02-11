@@ -16,6 +16,10 @@ public class ItemManager {
         //
     }
 
+    public Map<String, BoundaryItem> getItems() {
+        return items;
+    }
+
     public BoundaryItem getItem(String id) {
         return items.get(id);
     }
