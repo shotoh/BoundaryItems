@@ -1,5 +1,6 @@
 package io.github.shotoh.boundaryitems.guis;
 
+import io.github.shotoh.boundaryitems.BoundaryItems;
 import io.github.shotoh.boundaryitems.utils.GuiUtils;
 import io.github.shotoh.boundaryitems.utils.ItemUtils;
 import org.bukkit.DyeColor;
@@ -15,8 +16,8 @@ public class UpgradeGui extends BoundaryGui {
     private final Player player;
     private final ItemStack is;
 
-    public UpgradeGui(Player player, ItemStack is) {
-        super("upgrade", "Upgrade");
+    public UpgradeGui(BoundaryItems plugin, Player player, ItemStack is) {
+        super(plugin, "upgrade", "Upgrade");
         this.player = player;
         this.is = is.clone();
         is.setType(Material.AIR);

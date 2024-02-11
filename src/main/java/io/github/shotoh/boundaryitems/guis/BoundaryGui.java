@@ -1,5 +1,6 @@
 package io.github.shotoh.boundaryitems.guis;
 
+import io.github.shotoh.boundaryitems.BoundaryItems;
 import io.github.shotoh.boundaryitems.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -9,18 +10,24 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 
 public abstract class BoundaryGui implements InventoryHolder {
+    protected final BoundaryItems plugin;
     protected final String id;
     protected final String name;
     protected final int size;
 
-    protected BoundaryGui(String id, String name) {
-        this(id, name, 54);
+    protected BoundaryGui(BoundaryItems plugin, String id, String name) {
+        this(plugin, id, name, 54);
     }
 
-    protected BoundaryGui(String id, String name, int size) {
+    protected BoundaryGui(BoundaryItems plugin, String id, String name, int size) {
+        this.plugin = plugin;
         this.id = id;
         this.name = name;
         this.size = size;
+    }
+
+    public BoundaryItems getPlugin() {
+        return plugin;
     }
 
     public String getId() {
