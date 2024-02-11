@@ -1,17 +1,14 @@
 package io.github.shotoh.boundaryitems.items;
 
-import io.github.shotoh.boundaryitems.core.BoundaryDamage;
 import io.github.shotoh.boundaryitems.utils.NBTUtils;
 import io.github.shotoh.boundaryitems.utils.Utils;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
+import java.util.Objects;
 
 public final class BoundaryItem {
     public static final String ID_KEY = "bi_id";
@@ -122,5 +119,18 @@ public final class BoundaryItem {
         ItemMeta im = is.getItemMeta();
         im.setLore(lore.stream().map(Utils::color).toList());
         is.setItemMeta(im);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (obj == null || obj.getClass() != this.getClass()) return false;
+        var that = (BoundaryItem) obj;
+        return Objects.equals(this.id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

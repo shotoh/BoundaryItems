@@ -15,7 +15,10 @@ import java.util.Map;
 
 public class ItemUtils {
     public static ItemStack createItem(String id) {
-        BoundaryItem item = ItemManager.getInstance().getItem(id);
+        return createItem(ItemManager.getInstance().getItem(id));
+    }
+
+    public static ItemStack createItem(BoundaryItem item) {
         if (item == null) return null;
         return item.create();
     }
