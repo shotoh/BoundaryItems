@@ -1,6 +1,7 @@
 package io.github.shotoh.boundaryitems.items;
 
 import io.github.shotoh.boundaryitems.core.BoundaryDamage;
+import io.github.shotoh.boundaryitems.utils.ItemUtils;
 import io.github.shotoh.boundaryitems.utils.NBTUtils;
 import io.github.shotoh.boundaryitems.utils.Utils;
 import org.bukkit.Material;
@@ -92,15 +93,26 @@ public final class BoundaryItem {
         ItemMeta im = is.getItemMeta();
         im.setDisplayName(Utils.color(name));
 
-        List<String> lore = Stream.of(
-                "&6Money spend on item",
-                "&e$0",
-                "",
-                "&6Ascension requirements:",
-                "&eLevel " + upgradeInfo.getLevelCost(),
-                "&e$" + upgradeInfo.getMoneyCost() + " spent on item",
-                "&eA level " + upgradeInfo.getEnchantCost() + " enchant"
-        ).map(Utils::color).toList();
+        List<String> lore;
+        if (ItemManager.getInstance().isEndOfPath(this)) {
+            lore = Stream.of(
+                    "&6Money spend on item",
+                    "&e$0",
+                    "",
+                    "&6Ascension requirements:",
+                    "&e&lMAX ASCENSION"
+            ).map(Utils::color).toList();
+        } else {
+            lore = Stream.of(
+                    "&6Money spend on item",
+                    "&e$0",
+                    "",
+                    "&6Ascension requirements:",
+                    "&eLevel " + upgradeInfo.getLevelCost(),
+                    "&e$" + upgradeInfo.getMoneyCost() + " spent on item",
+                    "&eA level " + upgradeInfo.getEnchantCost() + " enchant"
+            ).map(Utils::color).toList();
+        }
         im.setLore(lore);
 
         im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
