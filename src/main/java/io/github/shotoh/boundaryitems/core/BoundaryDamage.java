@@ -16,6 +16,9 @@ public class BoundaryDamage {
     public double getDamage() {
         return damage;
     }
+    public void setDamage(double damage) {
+        this.damage = damage;
+    }
 
     public void addDamage(double damage) {
         this.damage += damage;
@@ -30,6 +33,6 @@ public class BoundaryDamage {
     }
 
     public double calculate() {
-        return damage * additive;
+        return Math.max(damage * additive, 1);
     }
 }

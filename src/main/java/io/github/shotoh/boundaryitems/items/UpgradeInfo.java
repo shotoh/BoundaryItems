@@ -1,12 +1,14 @@
 package io.github.shotoh.boundaryitems.items;
 
-import io.github.shotoh.boundaryitems.integrations.VaultIntegration;
+import io.github.shotoh.boundaryitems.utils.ItemUtils;
+import io.github.shotoh.boundaryitems.utils.NBTUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public record UpgradeInfo(int moneyCost, int levelCost, int enchantCost) {
     public boolean canUpgrade(Player player, ItemStack is) {
-        if (!VaultIntegration.ECONOMY.has(player, moneyCost)) return false;
+        int moneySpent = NBTUtils.getNBTInteger(is, BoundaryItem.MONEY_KEY);
+        if (moneySpent < moneyCost) return false;
         if (player.getExpToLevel() < levelCost) return false;
         for (int enchantLevel : is.getEnchantments().values()) {
             if (enchantLevel >= enchantCost) return true;
@@ -14,7 +16,7 @@ public record UpgradeInfo(int moneyCost, int levelCost, int enchantCost) {
         return false;
     }
 
-    public void upgrade(Player player, ItemStack is) {
-        //
+    public ItemStack upgrade(BoundaryItem item) {
+        return ItemUtils.createItem(ItemManager.getInstance().getNextInPath(item));
     }
 }

@@ -16,6 +16,18 @@ public class ItemManager {
         //
     }
 
+    public BoundaryItem getItem(String id) {
+        return items.get(id);
+    }
+
+    public String getNextInPath(BoundaryItem item) {
+        List<String> pathItems = paths.get(item.path());
+        if (pathItems == null) return null;
+        int index = pathItems.indexOf(item.id());
+        if (index == -1 || index == pathItems.size() - 1) return null;
+        return pathItems.get(index + 1);
+    }
+
     public static ItemManager getInstance() {
         return INSTANCE;
     }
