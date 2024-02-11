@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -91,34 +92,35 @@ public final class BoundaryItem {
         ItemStack is = new ItemStack(material);
         ItemMeta im = is.getItemMeta();
         im.setDisplayName(Utils.color(name));
-
-        List<String> lore;
-        if (ItemManager.getInstance().isEndOfPath(this)) {
-            lore = Stream.of(
-                    "&6Money spend on item",
-                    "&e$0",
-                    "",
-                    "&6Ascension requirements:",
-                    "&e&lMAX ASCENSION"
-            ).map(Utils::color).toList();
-        } else {
-            lore = Stream.of(
-                    "&6Money spend on item",
-                    "&e$0",
-                    "",
-                    "&6Ascension requirements:",
-                    "&eLevel " + upgradeInfo.getLevelCost(),
-                    "&e$" + upgradeInfo.getMoneyCost() + " spent on item",
-                    "&eA level " + upgradeInfo.getEnchantCost() + " enchant"
-            ).map(Utils::color).toList();
-        }
-        im.setLore(lore);
         im.spigot().setUnbreakable(true);
-
         is.setItemMeta(im);
         is = NBTUtils.setNBTString(is, ID_KEY, id);
         is = NBTUtils.setNBTInteger(is, MONEY_KEY, 0);
         is = NBTUtils.addAttributes(is, path, itemStat);
+        setLore(this, is);
         return is;
+    }
+
+    public static void setLore(BoundaryItem item, ItemStack is) {
+        List<String> lore = new ArrayList<>();
+        if (item.getPath() == ItemPath.PICKAXE) {
+            lore.add("&6Breaking Power: &e" + item.getItemStat());
+            lore.add("");
+        }
+        lore.add("&6Money spend on item");
+        int moneySpent = Math.max(NBTUtils.getNBTInteger(is, MONEY_KEY), 0);
+        lore.add("&e$" + moneySpent);
+        lore.add("");
+        lore.add("&6Ascension requirements:");
+        if (ItemManager.getInstance().isEndOfPath(item)) {
+            lore.add("&e&lMAX ASCENSION");
+        } else {
+            lore.add("&eLevel " + item.getUpgradeInfo().getLevelCost());
+            lore.add("&e$" + item.getUpgradeInfo().getMoneyCost() + " spent on item");
+            lore.add("&eA level " + item.getUpgradeInfo().getEnchantCost() + " enchant");
+        }
+        ItemMeta im = is.getItemMeta();
+        im.setLore(lore.stream().map(Utils::color).toList());
+        is.setItemMeta(im);
     }
 }
