@@ -28,6 +28,13 @@ public class ItemManager {
         return pathItems.get(index + 1);
     }
 
+    public boolean isEndOfPath(BoundaryItem item) {
+        List<String> pathItems = paths.get(item.path());
+        if (pathItems == null) return false;
+        int index = pathItems.indexOf(item.id());
+        return index == pathItems.size() - 1;
+    }
+
     public static ItemManager getInstance() {
         return INSTANCE;
     }
