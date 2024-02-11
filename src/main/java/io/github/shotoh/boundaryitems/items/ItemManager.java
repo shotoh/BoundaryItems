@@ -21,17 +21,17 @@ public class ItemManager {
     }
 
     public String getNextInPath(BoundaryItem item) {
-        List<String> pathItems = paths.get(item.path());
+        List<String> pathItems = paths.get(item.getPath());
         if (pathItems == null) return null;
-        int index = pathItems.indexOf(item.id());
+        int index = pathItems.indexOf(item.getId());
         if (index == -1 || index == pathItems.size() - 1) return null;
         return pathItems.get(index + 1);
     }
 
     public boolean isEndOfPath(BoundaryItem item) {
-        List<String> pathItems = paths.get(item.path());
+        List<String> pathItems = paths.get(item.getPath());
         if (pathItems == null) return false;
-        int index = pathItems.indexOf(item.id());
+        int index = pathItems.indexOf(item.getId());
         return index == pathItems.size() - 1;
     }
 
