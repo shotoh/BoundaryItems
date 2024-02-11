@@ -75,7 +75,7 @@ public class ListGui<T> extends BoundaryGui {
         } else if (slot == 48) {
             if (page > 0) {
                 page--;
-                update(event.getClickedInventory());
+                update(event.getInventory());
                 Utils.playSound(player, Sound.CLICK, 0.5f, 1f);
             }
         } else if (slot == 49) {
@@ -83,7 +83,7 @@ public class ListGui<T> extends BoundaryGui {
         } else if (slot == 50) {
             if (page < GuiUtils.getMaxPage(list)) {
                 page++;
-                update(event.getClickedInventory());
+                update(event.getInventory());
                 Utils.playSound(player, Sound.CLICK, 0.5f, 1f);
             }
         }
