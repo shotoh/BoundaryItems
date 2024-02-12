@@ -4,6 +4,7 @@ import io.github.shotoh.boundaryitems.BoundaryItems;
 import io.github.shotoh.boundaryitems.guis.BoundaryGui;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -11,6 +12,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.DoubleConsumer;
 
 public class GuiUtils {
     public static void openInventory(BoundaryItems plugin, Player player, BoundaryGui gui) {
@@ -78,5 +81,29 @@ public class GuiUtils {
 
     public static int getMaxPage(List<?> list) {
         return list.size() / 28;
+    }
+
+    public static void askInput(BoundaryItems plugin, BoundaryGui gui, Player player, String message, Consumer<String> consumer) {
+        closeInventory(plugin, player);
+        Utils.sendMessage(player, message);
+        BoundaryItems.INPUTS.put(player.getUniqueId(), (event) -> {
+            event.setCancelled(true);
+            consumer.accept(event.getMessage());
+            GuiUtils.openInventory(plugin, player, gui);
+        });
+    }
+
+    public static void askNumber(BoundaryItems plugin, BoundaryGui gui, Player player, String message, Consumer<Integer> consumer) {
+        askInput(plugin, gui, player, message, (string) -> {
+            int value;
+            try {
+                value = Integer.parseInt(string);
+                Utils.playSound(player, Sound.NOTE_PLING, 0.5f, 2f);
+            } catch (NumberFormatException e) {
+                value = 0;
+                Utils.playSound(player, Sound.ENDERMAN_TELEPORT, 0.5f, 0.5f);
+            }
+            consumer.accept(value);
+        });
     }
 }

@@ -42,6 +42,10 @@ public class ItemManager {
         return items;
     }
 
+    public Map<ItemPath, List<BoundaryItem>> getPaths() {
+        return paths;
+    }
+
     public BoundaryItem getItem(String id) {
         return items.get(id);
     }

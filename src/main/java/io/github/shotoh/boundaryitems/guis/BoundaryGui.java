@@ -51,11 +51,11 @@ public abstract class BoundaryGui implements InventoryHolder {
     protected abstract void update(Inventory inv);
 
     public void onOpen(InventoryOpenEvent event) {
-        update(event.getInventory());
+        //
     }
 
     public void onClick(InventoryClickEvent event) {
-        update(event.getInventory());
+        //
     }
 
     public void onClose(InventoryCloseEvent event) {

@@ -98,6 +98,33 @@ public final class BoundaryItem {
         return is;
     }
 
+    public ItemStack createShowcase() {
+        ItemStack is = new ItemStack(material);
+        ItemMeta im = is.getItemMeta();
+        im.setDisplayName(Utils.color(name));
+        im.spigot().setUnbreakable(true);
+
+        List<String> lore = new ArrayList<>();
+        lore.add("&7Weight: &c" + pathWeight);
+        lore.add("&7Item Stat: &c" + itemStat);
+        lore.add("&6Ascension requirements:");
+        if (ItemManager.getInstance().isEndOfPath(this)) {
+            lore.add("&e&lMAX ASCENSION");
+        } else {
+            lore.add("&eLevel " + upgradeInfo.getLevelCost());
+            lore.add("&e$" + upgradeInfo.getMoneyCost() + " spent on item");
+            lore.add("&eA level " + upgradeInfo.getEnchantCost() + " enchant");
+        }
+        lore.add("");
+        lore.add("&aRight click to edit");
+        lore.add("&cShift click to destroy");
+        im.setLore(lore.stream().map(Utils::color).toList());
+
+        is.setItemMeta(im);
+        is = NBTUtils.setNBTString(is, ID_KEY, id);
+        return is;
+    }
+
     public static void setLore(BoundaryItem item, ItemStack is) {
         List<String> lore = new ArrayList<>();
         if (item.getPath() == ItemPath.PICKAXE) {

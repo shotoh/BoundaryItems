@@ -1,6 +1,7 @@
-package io.github.shotoh.boundaryitems.guis;
+package io.github.shotoh.boundaryitems.guis.admin;
 
 import io.github.shotoh.boundaryitems.BoundaryItems;
+import io.github.shotoh.boundaryitems.guis.BoundaryGui;
 import io.github.shotoh.boundaryitems.utils.GuiUtils;
 import io.github.shotoh.boundaryitems.utils.ItemUtils;
 import org.bukkit.DyeColor;
@@ -33,5 +34,6 @@ public class AdminGui extends BoundaryGui {
     @Override
     public void onClick(InventoryClickEvent event) {
         super.onClick(event);
+        // todo add clicks
     }
 }
