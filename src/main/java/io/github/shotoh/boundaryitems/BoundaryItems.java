@@ -19,7 +19,6 @@ import org.incendo.cloud.bukkit.BukkitCommandManager;
 import org.incendo.cloud.execution.ExecutionCoordinator;
 import org.incendo.cloud.paper.PaperCommandManager;
 
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
@@ -51,7 +50,7 @@ public class BoundaryItems extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        try (FileWriter writer = new FileWriter(Utils.getFile(this, "items"))) {
+        try (FileWriter writer = new FileWriter(Utils.getFile(this, "items.json"))) {
             GSON.toJson(ItemManager.getInstance().getItems(), new TypeToken<Map<String, BoundaryItem>>(){}.getType(), writer);
             LOGGER.info("Saved items to file!");
         } catch (IOException ignored) {
