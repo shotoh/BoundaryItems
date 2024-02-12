@@ -61,6 +61,7 @@ public class UpgradeGui extends BoundaryGui {
     public void onClick(InventoryClickEvent event) {
         if (event.isCancelled()) return;
         event.setCancelled(true);
+        if (!event.getInventory().equals(event.getClickedInventory())) return;
         update(event.getInventory());
         int slot = event.getSlot();
         BoundaryItem item = ItemUtils.getItem(is);

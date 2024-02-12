@@ -5,12 +5,18 @@ import io.github.shotoh.boundaryitems.guis.UpgradeGui;
 import io.github.shotoh.boundaryitems.items.BoundaryItem;
 import io.github.shotoh.boundaryitems.utils.GuiUtils;
 import io.github.shotoh.boundaryitems.utils.ItemUtils;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.Map;
+import java.util.UUID;
+import java.util.function.Consumer;
 
 public class PlayerListener implements Listener {
     private final BoundaryItems plugin;
@@ -32,5 +38,16 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerQuitEvent(PlayerQuitEvent event) {
         GuiUtils.closeInventory(plugin, event.getPlayer());
+    }
+
+    @EventHandler
+    public void onAsyncPlayerChatEvent(AsyncPlayerChatEvent event) {
+        Player player = event.getPlayer();
+        UUID uuid = player.getUniqueId();
+        Map<UUID, Consumer<AsyncPlayerChatEvent>> inputs = BoundaryItems.INPUTS;
+        if (inputs.containsKey(uuid)) {
+            inputs.get(uuid).accept(event);
+            inputs.remove(uuid);
+        }
     }
 }

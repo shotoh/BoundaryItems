@@ -24,7 +24,7 @@ public class ItemPathEditorGui extends ListGui<BoundaryItem> {
     public void onClick(InventoryClickEvent event) {
         if (event.isCancelled()) return;
         event.setCancelled(true);
-        if (event.getClickedInventory().equals(event.getInventory())) return;
+        if (event.getInventory().equals(event.getClickedInventory())) return;
         Player player = (Player) event.getWhoClicked();
         ItemStack is = event.getCurrentItem();
         if (is == null) return;
