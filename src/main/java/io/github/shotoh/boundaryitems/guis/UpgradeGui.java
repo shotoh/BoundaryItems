@@ -1,8 +1,10 @@
 package io.github.shotoh.boundaryitems.guis;
 
 import io.github.shotoh.boundaryitems.BoundaryItems;
+import io.github.shotoh.boundaryitems.items.BoundaryItem;
 import io.github.shotoh.boundaryitems.utils.GuiUtils;
 import io.github.shotoh.boundaryitems.utils.ItemUtils;
+import io.github.shotoh.boundaryitems.utils.Utils;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -29,8 +31,17 @@ public class UpgradeGui extends BoundaryGui {
             if (i == 4) {
                 inv.setItem(i, is);
             } else if (i == 22) {
-                inv.setItem(i, ItemUtils.createMiscItem("&6Ascension", new String[] {
-                        "&eClick here to upgrade your weapon"
+                inv.setItem(i, ItemUtils.createMiscItem("&b&lASCEND ITEM", new String[] {
+                        "&c&lIRREVERSIBLE",
+                        "",
+                        "&7Ascending this item will convert it to the",
+                        "&7next &8rarity&7. Ascending this item will prevent you",
+                        "&7from reverting it back to the current material or",
+                        "&7previous materials, will reset enchants, but will",
+                        "&7enable you to deal damage beyond your current",
+                        "&7capabilities",
+                        "",
+                        "&8*Click this item to confirm &bAscension&8*"
                 }, Material.QUARTZ_STAIRS, null, 1));
             } else if (i == 49) {
                 inv.setItem(i, GuiUtils.getGuiClose());
@@ -51,7 +62,23 @@ public class UpgradeGui extends BoundaryGui {
         if (event.isCancelled()) return;
         event.setCancelled(true);
         update(event.getInventory());
-        // todo set clicks
+        int slot = event.getSlot();
+        BoundaryItem item = ItemUtils.getItem(is);
+        if (item == null) return;
+        if (slot == 22) {
+            if (!item.getUpgradeInfo().canUpgrade(player, is)) {
+                Utils.sendMessage(player, "&cYou do not meet the requirements!");
+                return;
+            }
+            ItemStack upgradeIs = item.getUpgradeInfo().upgrade(item);
+            if (upgradeIs == null) {
+                Utils.sendMessage(player, "&cYou already have the max ascension!");
+                return;
+            }
+            is.setType(Material.AIR);
+            ItemUtils.addItem(player, upgradeIs, 1);
+            GuiUtils.closeInventory(plugin, player);
+        }
     }
 
     @Override

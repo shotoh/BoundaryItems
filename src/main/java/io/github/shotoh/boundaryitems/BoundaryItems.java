@@ -6,6 +6,7 @@ import io.github.shotoh.boundaryitems.core.BoundaryCommand;
 import io.github.shotoh.boundaryitems.integrations.VaultIntegration;
 import io.github.shotoh.boundaryitems.items.ItemManager;
 import io.github.shotoh.boundaryitems.listeners.InventoryListener;
+import io.github.shotoh.boundaryitems.listeners.PlayerListener;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -37,6 +38,7 @@ public class BoundaryItems extends JavaPlugin {
         VaultIntegration.register(this);
         new BoundaryCommand(this).register();
         registerEvents(new InventoryListener());
+        registerEvents(new PlayerListener(this));
     }
 
     @Override

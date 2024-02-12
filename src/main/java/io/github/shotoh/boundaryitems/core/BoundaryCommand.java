@@ -1,8 +1,10 @@
 package io.github.shotoh.boundaryitems.core;
 
 import io.github.shotoh.boundaryitems.BoundaryItems;
+import io.github.shotoh.boundaryitems.guis.admin.AdminGui;
 import io.github.shotoh.boundaryitems.items.BoundaryItem;
 import io.github.shotoh.boundaryitems.items.ItemManager;
+import io.github.shotoh.boundaryitems.utils.GuiUtils;
 import io.github.shotoh.boundaryitems.utils.ItemUtils;
 import io.github.shotoh.boundaryitems.utils.Utils;
 import org.bukkit.command.CommandSender;
@@ -14,10 +16,12 @@ import org.incendo.cloud.parser.standard.StringParser;
 import org.incendo.cloud.suggestion.SuggestionProvider;
 
 public class BoundaryCommand {
+    private final BoundaryItems plugin;
     private final BukkitCommandManager<CommandSender> manager;
     private final Command.Builder<CommandSender> builder;
 
     public BoundaryCommand(BoundaryItems plugin) {
+        this.plugin = plugin;
         this.manager = plugin.getCommandManager();
         this.builder = manager.commandBuilder("bi");
     }
@@ -39,6 +43,12 @@ public class BoundaryCommand {
                     } else {
                         Utils.sendMessage(player, "&cUnknown item id: " + id);
                     }
+                }));
+        manager.command(builder.literal("gui")
+                .permission("bi.admin")
+                .senderType(Player.class)
+                .handler(ctx -> {
+                    GuiUtils.openInventory(plugin, ctx.sender(), new AdminGui(plugin));
                 }));
     }
 }
