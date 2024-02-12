@@ -26,8 +26,8 @@ public class ItemUtils {
     public static ItemStack createMiscItem(String name, String[] lore, Material material, Map<Enchantment, Integer> enchants, int amount) {
         ItemStack is = new ItemStack(material, amount);
         ItemMeta im = is.getItemMeta();
-        im.setDisplayName(Utils.color(name));
-        if (lore != null) im.setLore(Arrays.stream(lore).map(Utils::color).toList());
+        im.setDisplayName(Utils.color("&b" + name));
+        if (lore != null) im.setLore(Arrays.stream(lore).map(s -> Utils.color("&7" + s)).toList());
         if (enchants != null) {
             for (Map.Entry<Enchantment, Integer> entry : enchants.entrySet()) {
                 im.addEnchant(entry.getKey(), entry.getValue(), true);

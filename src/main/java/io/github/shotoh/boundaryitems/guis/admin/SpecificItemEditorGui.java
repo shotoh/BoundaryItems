@@ -55,7 +55,7 @@ public class SpecificItemEditorGui extends BoundaryGui {
                 }, Material.ENCHANTED_BOOK, null, 1));
             } else if (i == 49) {
                 inv.setItem(i, GuiUtils.getGuiClose());
-            } else if (i < 9 || i > 35) {
+            } else if (i < 9 || i > 44) {
                 inv.setItem(i, GuiUtils.getGuiGlass(DyeColor.RED.getData()));
             }
         }

@@ -88,7 +88,7 @@ public final class BoundaryItem {
     public ItemStack create() {
         ItemStack is = new ItemStack(material);
         ItemMeta im = is.getItemMeta();
-        im.setDisplayName(Utils.color(name));
+        im.setDisplayName(Utils.color("&b" + name));
         im.spigot().setUnbreakable(true);
         is.setItemMeta(im);
         is = NBTUtils.setNBTString(is, ID_KEY, id);
@@ -101,12 +101,14 @@ public final class BoundaryItem {
     public ItemStack createShowcase() {
         ItemStack is = new ItemStack(material);
         ItemMeta im = is.getItemMeta();
-        im.setDisplayName(Utils.color(name));
+        im.setDisplayName(Utils.color("&b" + name));
         im.spigot().setUnbreakable(true);
 
         List<String> lore = new ArrayList<>();
+        lore.add("&7ID: &c" + id);
         lore.add("&7Weight: &c" + pathWeight);
         lore.add("&7Item Stat: &c" + itemStat);
+        lore.add("");
         lore.add("&6Ascension requirements:");
         if (ItemManager.getInstance().isEndOfPath(this)) {
             lore.add("&e&lMAX ASCENSION");
@@ -118,7 +120,7 @@ public final class BoundaryItem {
         lore.add("");
         lore.add("&aRight click to edit");
         lore.add("&cShift click to destroy");
-        im.setLore(lore.stream().map(Utils::color).toList());
+        im.setLore(lore.stream().map(s -> Utils.color("&7" + s)).toList());
 
         is.setItemMeta(im);
         is = NBTUtils.setNBTString(is, ID_KEY, id);
@@ -131,7 +133,7 @@ public final class BoundaryItem {
             lore.add("&6Breaking Power: &e" + item.getItemStat());
             lore.add("");
         }
-        lore.add("&6Money spend on item");
+        lore.add("&6Money spent on item");
         int moneySpent = Math.max(NBTUtils.getNBTInteger(is, MONEY_KEY), 0);
         lore.add("&e$" + moneySpent);
         lore.add("");
@@ -144,7 +146,7 @@ public final class BoundaryItem {
             lore.add("&eA level " + item.getUpgradeInfo().getEnchantCost() + " enchant");
         }
         ItemMeta im = is.getItemMeta();
-        im.setLore(lore.stream().map(Utils::color).toList());
+        im.setLore(lore.stream().map(s -> Utils.color("&7" + s)).toList());
         is.setItemMeta(im);
     }
 

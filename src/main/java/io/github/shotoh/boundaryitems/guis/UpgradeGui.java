@@ -16,13 +16,13 @@ import org.bukkit.inventory.ItemStack;
 
 public class UpgradeGui extends BoundaryGui {
     private final Player player;
-    private final ItemStack is;
+    private ItemStack is;
 
     public UpgradeGui(BoundaryItems plugin, Player player, ItemStack is) {
         super(plugin, "upgrade", "Upgrade");
         this.player = player;
         this.is = is.clone();
-        is.setType(Material.AIR);
+        ItemUtils.removeItem(player, is, 1);
     }
 
     @Override
@@ -76,8 +76,10 @@ public class UpgradeGui extends BoundaryGui {
                 Utils.sendMessage(player, "&cYou already have the max ascension!");
                 return;
             }
-            is.setType(Material.AIR);
+            is = null;
             ItemUtils.addItem(player, upgradeIs, 1);
+            GuiUtils.closeInventory(plugin, player);
+        } else if (slot == 49) {
             GuiUtils.closeInventory(plugin, player);
         }
     }

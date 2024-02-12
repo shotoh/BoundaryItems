@@ -23,13 +23,13 @@ public class ItemPathEditorGui extends ListGui<BoundaryItem> {
     @Override
     public void onClick(InventoryClickEvent event) {
         if (event.isCancelled()) return;
-        event.setCancelled(true);
+        super.onClick(event);
         if (event.getInventory().equals(event.getClickedInventory())) return;
         Player player = (Player) event.getWhoClicked();
         ItemStack is = event.getCurrentItem();
         if (is == null) return;
         GuiUtils.askInput(plugin, this, player, "&6Enter ID:", (s) -> {
-            ItemManager.getInstance().addItem(new BoundaryItem(s, "NULL", is.getType(), path, 0, 0,
+            ItemManager.getInstance().addItem(new BoundaryItem(s, "N/A", is.getType(), path, 0, 0,
                     new UpgradeInfo(0, 0, 0)));
         });
     }
