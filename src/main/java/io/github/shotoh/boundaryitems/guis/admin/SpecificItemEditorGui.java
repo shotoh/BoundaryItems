@@ -63,9 +63,9 @@ public class SpecificItemEditorGui extends BoundaryGui {
 
     @Override
     public void onClick(InventoryClickEvent event) {
-        update(event.getInventory());
         if (event.isCancelled()) return;
         event.setCancelled(true);
+        update(event.getInventory());
         Player player = (Player) event.getWhoClicked();
         int slot = event.getSlot();
         if (slot == 19) {

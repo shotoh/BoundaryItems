@@ -6,6 +6,7 @@ import io.github.shotoh.boundaryitems.utils.GuiUtils;
 import io.github.shotoh.boundaryitems.utils.ItemUtils;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
@@ -33,7 +34,15 @@ public class AdminGui extends BoundaryGui {
 
     @Override
     public void onClick(InventoryClickEvent event) {
-        super.onClick(event);
-        // todo add clicks
+        if (event.isCancelled()) return;
+        event.setCancelled(true);
+        update(event.getInventory());
+        Player player = (Player) event.getWhoClicked();
+        int slot = event.getSlot();
+        if (slot == 20) {
+            GuiUtils.openInventory(plugin, player, new ItemEditorGui(plugin));
+        } else if (slot == 40) {
+            GuiUtils.closeInventory(plugin, player);
+        }
     }
 }

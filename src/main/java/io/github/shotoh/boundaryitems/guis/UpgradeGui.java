@@ -48,8 +48,9 @@ public class UpgradeGui extends BoundaryGui {
 
     @Override
     public void onClick(InventoryClickEvent event) {
-        super.onClick(event);
+        if (event.isCancelled()) return;
         event.setCancelled(true);
+        update(event.getInventory());
         // todo set clicks
     }
 
