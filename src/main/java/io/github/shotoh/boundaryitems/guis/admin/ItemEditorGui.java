@@ -2,10 +2,12 @@ package io.github.shotoh.boundaryitems.guis.admin;
 
 import io.github.shotoh.boundaryitems.BoundaryItems;
 import io.github.shotoh.boundaryitems.guis.BoundaryGui;
+import io.github.shotoh.boundaryitems.items.ItemPath;
 import io.github.shotoh.boundaryitems.utils.GuiUtils;
 import io.github.shotoh.boundaryitems.utils.ItemUtils;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
@@ -41,7 +43,25 @@ public class ItemEditorGui extends BoundaryGui {
 
     @Override
     public void onClick(InventoryClickEvent event) {
-        super.onClick(event);
-        // todo add clicks
+        update(event.getInventory());
+        Player player = (Player) event.getWhoClicked();
+        int slot = event.getSlot();
+        if (slot == 20) {
+            GuiUtils.openInventory(plugin, player, new ItemPathEditorGui(plugin, ItemPath.WEAPON));
+        } else if (slot == 21) {
+            GuiUtils.openInventory(plugin, player, new ItemPathEditorGui(plugin, ItemPath.PICKAXE));
+        } else if (slot == 22) {
+            GuiUtils.openInventory(plugin, player, new ItemPathEditorGui(plugin, ItemPath.ROD));
+        } else if (slot == 29) {
+            GuiUtils.openInventory(plugin, player, new ItemPathEditorGui(plugin, ItemPath.HELMET));
+        } else if (slot == 30) {
+            GuiUtils.openInventory(plugin, player, new ItemPathEditorGui(plugin, ItemPath.CHESTPLATE));
+        } else if (slot == 31) {
+            GuiUtils.openInventory(plugin, player, new ItemPathEditorGui(plugin, ItemPath.LEGGINGS));
+        } else if (slot == 32) {
+            GuiUtils.openInventory(plugin, player, new ItemPathEditorGui(plugin, ItemPath.BOOTS));
+        } else if (slot == 49) {
+            GuiUtils.closeInventory(plugin, player);
+        }
     }
 }

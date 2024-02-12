@@ -54,7 +54,7 @@ public class NBTUtils {
 
     public static ItemStack addAttributes(ItemStack is, ItemPath path, int itemStat) {
         String attributeName;
-        if (path == ItemPath.SWORD) {
+        if (path == ItemPath.WEAPON) {
             attributeName = "generic.attackDamage";
         } else if (path.isArmor()) {
             attributeName = "generic.armor";

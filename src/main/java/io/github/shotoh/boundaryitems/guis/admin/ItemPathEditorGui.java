@@ -10,12 +10,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class ItemPathEditorGui extends ListGui<BoundaryItem> {
-    private final ItemPath path;
-
     public ItemPathEditorGui(BoundaryItems plugin, ItemPath path) {
         super(plugin, "item_path_editor", "Item Path Editor",
                 ItemManager.getInstance().getPaths().get(path), BoundaryItem::createShowcase);
-        this.path = path;
     }
 
     @Override

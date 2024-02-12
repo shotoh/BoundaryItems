@@ -1,8 +1,9 @@
 package io.github.shotoh.boundaryitems.items;
 
 public enum ItemPath {
-    SWORD,
+    WEAPON,
     PICKAXE,
+    ROD,
     HELMET,
     CHESTPLATE,
     LEGGINGS,
