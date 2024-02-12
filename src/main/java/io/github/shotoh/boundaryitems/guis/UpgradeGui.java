@@ -21,8 +21,7 @@ public class UpgradeGui extends BoundaryGui {
     public UpgradeGui(BoundaryItems plugin, Player player, ItemStack is) {
         super(plugin, "upgrade", "Upgrade");
         this.player = player;
-        this.is = is.clone();
-        ItemUtils.removeItem(player, is, 1);
+        this.is = is;
     }
 
     @Override
@@ -37,9 +36,7 @@ public class UpgradeGui extends BoundaryGui {
                         "&7Ascending this item will convert it to the",
                         "&7next &8rarity&7. Ascending this item will prevent you",
                         "&7from reverting it back to the current material or",
-                        "&7previous materials, will reset enchants, but will",
-                        "&7enable you to deal damage beyond your current",
-                        "&7capabilities",
+                        "&7previous materials, and will reset enchants.",
                         "",
                         "&8*Click this item to confirm &bAscension&8*"
                 }, Material.QUARTZ_STAIRS, null, 1));

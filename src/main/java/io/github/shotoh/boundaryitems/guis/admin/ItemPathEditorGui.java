@@ -40,7 +40,7 @@ public class ItemPathEditorGui extends ListGui<BoundaryItem> {
         if (event.isRightClick()) {
             GuiUtils.openInventory(plugin, player, new SpecificItemEditorGui(plugin, list.get(index)));
         } else if (event.isShiftClick()) {
-            list.remove(index);
+            ItemManager.getInstance().removeItem(list.remove(index));
             update(event.getInventory());
         }
     }

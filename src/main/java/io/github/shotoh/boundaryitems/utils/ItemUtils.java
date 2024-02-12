@@ -69,5 +69,6 @@ public class ItemUtils {
         cloneIs.setAmount(amount);
         list.add(cloneIs);
         player.getInventory().removeItem(list.toArray(new ItemStack[]{}));
+        player.updateInventory();
     }
 }

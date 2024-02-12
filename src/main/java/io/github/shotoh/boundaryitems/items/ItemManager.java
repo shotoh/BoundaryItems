@@ -58,6 +58,13 @@ public class ItemManager {
         sortPathItems();
     }
 
+    public void removeItem(BoundaryItem item) {
+        if (item == null) return;
+        items.remove(item.getId());
+        paths.get(item.getPath()).remove(item);
+        sortPathItems();
+    }
+
     public void sortPathItems() {
         for (ItemPath path : ItemPath.values()) {
             List<BoundaryItem> pathItems = paths.get(path);

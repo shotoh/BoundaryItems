@@ -32,7 +32,9 @@ public class PlayerListener implements Listener {
         BoundaryItem item = ItemUtils.getItem(is);
         if (is == null || item == null || is.getAmount() != 1) return;
         event.setCancelled(true);
-        GuiUtils.openInventory(plugin, event.getPlayer(), new UpgradeGui(plugin, event.getPlayer(), is));
+        Player player = event.getPlayer();
+        ItemUtils.removeItem(player, is, 1);
+        GuiUtils.openInventory(plugin, player, new UpgradeGui(plugin, player, is));
     }
 
     @EventHandler
