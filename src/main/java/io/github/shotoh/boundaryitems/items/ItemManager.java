@@ -32,10 +32,7 @@ public class ItemManager {
             if (pathItems == null) continue;
             pathItems.add(item);
         }
-        for (ItemPath path : ItemPath.values()) {
-            List<BoundaryItem> pathItems = paths.get(path);
-            pathItems.sort(Comparator.comparingInt(BoundaryItem::getPathWeight));
-        }
+        sortPathItems();
     }
 
     public Map<String, BoundaryItem> getItems() {
@@ -48,6 +45,19 @@ public class ItemManager {
 
     public BoundaryItem getItem(String id) {
         return items.get(id);
+    }
+
+    public void addItem(BoundaryItem item) {
+        items.put(item.getId(), item);
+        paths.get(item.getPath()).add(item);
+        sortPathItems();
+    }
+
+    public void sortPathItems() {
+        for (ItemPath path : ItemPath.values()) {
+            List<BoundaryItem> pathItems = paths.get(path);
+            pathItems.sort(Comparator.comparingInt(BoundaryItem::getPathWeight));
+        }
     }
 
     public BoundaryItem getNextInPath(BoundaryItem item) {

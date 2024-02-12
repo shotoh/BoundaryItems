@@ -2,6 +2,7 @@ package io.github.shotoh.boundaryitems.guis.admin;
 
 import io.github.shotoh.boundaryitems.BoundaryItems;
 import io.github.shotoh.boundaryitems.guis.BoundaryGui;
+import io.github.shotoh.boundaryitems.items.ItemManager;
 import io.github.shotoh.boundaryitems.items.ItemPath;
 import io.github.shotoh.boundaryitems.utils.GuiUtils;
 import io.github.shotoh.boundaryitems.utils.ItemUtils;
@@ -9,6 +10,7 @@ import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 
 public class ItemEditorGui extends BoundaryGui {
@@ -45,6 +47,7 @@ public class ItemEditorGui extends BoundaryGui {
     public void onClick(InventoryClickEvent event) {
         if (event.isCancelled()) return;
         event.setCancelled(true);
+        if (!event.getClickedInventory().equals(event.getInventory())) return;
         update(event.getInventory());
         Player player = (Player) event.getWhoClicked();
         int slot = event.getSlot();
@@ -65,5 +68,10 @@ public class ItemEditorGui extends BoundaryGui {
         } else if (slot == 49) {
             GuiUtils.closeInventory(plugin, player);
         }
+    }
+
+    @Override
+    public void onClose(InventoryCloseEvent event) {
+        ItemManager.getInstance().sortPathItems();
     }
 }
