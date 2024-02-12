@@ -20,7 +20,7 @@ public class ItemManager {
     public void register(BoundaryItems plugin) {
         try (FileReader reader = new FileReader(Utils.getFile(plugin, "items.json"))) {
             Map<String, BoundaryItem> tempItems = BoundaryItems.GSON.fromJson(reader, new TypeToken<Map<String, BoundaryItem>>(){}.getType());
-            if (tempItems.isEmpty()) {
+            if (tempItems == null || tempItems.isEmpty()) {
                 BoundaryItems.LOGGER.warning("Items could not be found, prevented override!");
             } else {
                 items = tempItems;
