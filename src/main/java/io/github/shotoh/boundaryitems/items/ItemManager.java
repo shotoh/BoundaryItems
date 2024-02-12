@@ -18,8 +18,13 @@ public class ItemManager {
     }
 
     public void register(BoundaryItems plugin) {
-        try (FileReader reader = new FileReader(Utils.getFile(plugin, "boundary_items"))) {
-            items = BoundaryItems.GSON.fromJson(reader, new TypeToken<Map<String, BoundaryItem>>(){}.getType());
+        try (FileReader reader = new FileReader(Utils.getFile(plugin, "items"))) {
+            Map<String, BoundaryItem> tempItems = BoundaryItems.GSON.fromJson(reader, new TypeToken<Map<String, BoundaryItem>>(){}.getType());
+            if (tempItems.isEmpty()) {
+                BoundaryItems.LOGGER.warning("Items could not be found, prevented override!");
+            } else {
+                items = tempItems;
+            }
         } catch (IOException ignored) {
         }
         if (items == null) items = new HashMap<>();
