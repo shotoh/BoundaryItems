@@ -11,6 +11,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
+
 public class ItemPathEditorGui extends ListGui<BoundaryItem> {
     private final ItemPath path;
 

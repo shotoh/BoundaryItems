@@ -42,7 +42,7 @@ public class BoundaryCommand {
                     BoundaryItem item = ItemManager.getInstance().getItem(id);
                     if (item != null) {
                         ItemUtils.addItem(player, ItemUtils.createItem(id), 1);
-                        Utils.sendMessage(player, "&5Creating &d" + item.getName());
+                        Utils.sendMessage(player, "&bCreating &d" + item.getName());
                     } else {
                         Utils.sendMessage(player, "&cUnknown item id: " + id);
                     }
@@ -60,7 +60,7 @@ public class BoundaryCommand {
                 .handler(ctx -> {
                     Player player = ctx.sender();
                     int amount = ctx.get(CloudKey.of("amount", Integer.class));
-                    BoundaryItem item = ItemUtils.getItem(player.getItemInHand());
+                    BoundaryItem item = ItemManager.getInstance().getItem(player.getItemInHand());
                     if (item != null) {
                         ItemStack is = player.getItemInHand();
                         ItemStack editedIs = NBTUtils.setNBTInteger(is, BoundaryItem.MONEY_KEY, amount);

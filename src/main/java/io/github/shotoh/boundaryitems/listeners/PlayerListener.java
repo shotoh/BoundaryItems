@@ -1,13 +1,16 @@
 package io.github.shotoh.boundaryitems.listeners;
 
 import io.github.shotoh.boundaryitems.BoundaryItems;
+import io.github.shotoh.boundaryitems.block.BlockManager;
 import io.github.shotoh.boundaryitems.guis.UpgradeGui;
 import io.github.shotoh.boundaryitems.items.BoundaryItem;
+import io.github.shotoh.boundaryitems.items.ItemManager;
 import io.github.shotoh.boundaryitems.utils.GuiUtils;
 import io.github.shotoh.boundaryitems.utils.ItemUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -29,7 +32,7 @@ public class PlayerListener implements Listener {
     public void onPlayerDropItemEvent(PlayerDropItemEvent event) {
         if (event.isCancelled()) return;
         ItemStack is = event.getItemDrop().getItemStack();
-        BoundaryItem item = ItemUtils.getItem(is);
+        BoundaryItem item = ItemManager.getInstance().getItem(is);
         if (is == null || item == null || is.getAmount() != 1) return;
         event.setCancelled(true);
         Player player = event.getPlayer();
@@ -51,5 +54,10 @@ public class PlayerListener implements Listener {
             inputs.get(uuid).accept(event);
             inputs.remove(uuid);
         }
+    }
+
+    @EventHandler
+    public void onBlockBreakEvent(BlockBreakEvent event) {
+        BlockManager.getInstance().onBlockBreak(event);
     }
 }

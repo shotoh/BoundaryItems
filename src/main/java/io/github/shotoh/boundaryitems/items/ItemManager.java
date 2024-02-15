@@ -1,8 +1,10 @@
 package io.github.shotoh.boundaryitems.items;
 
 import io.github.shotoh.boundaryitems.BoundaryItems;
+import io.github.shotoh.boundaryitems.utils.NBTUtils;
 import io.github.shotoh.boundaryitems.utils.Utils;
 import io.leangen.geantyref.TypeToken;
+import org.bukkit.inventory.ItemStack;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -50,6 +52,10 @@ public class ItemManager {
 
     public BoundaryItem getItem(String id) {
         return items.get(id);
+    }
+
+    public BoundaryItem getItem(ItemStack is) {
+        return getItem(NBTUtils.getNBTString(is, BoundaryItem.ID_KEY));
     }
 
     public void addItem(BoundaryItem item) {

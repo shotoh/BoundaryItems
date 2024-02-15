@@ -37,13 +37,8 @@ public class ItemUtils {
         return is;
     }
 
-    public static BoundaryItem getItem(ItemStack is) {
-        String id = NBTUtils.getNBTString(is, BoundaryItem.ID_KEY);
-        return ItemManager.getInstance().getItem(id);
-    }
-
     public static boolean isItem(ItemStack is) {
-        return getItem(is) != null;
+        return ItemManager.getInstance().getItem(is) != null;
     }
 
     public static void addItem(Player player, ItemStack is, int amount) {

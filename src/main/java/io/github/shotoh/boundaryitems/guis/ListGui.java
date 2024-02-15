@@ -3,6 +3,7 @@ package io.github.shotoh.boundaryitems.guis;
 import io.github.shotoh.boundaryitems.BoundaryItems;
 import io.github.shotoh.boundaryitems.utils.GuiUtils;
 import io.github.shotoh.boundaryitems.utils.Utils;
+import org.bukkit.DyeColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -43,7 +44,7 @@ public class ListGui<T> extends BoundaryGui {
                 if (page > 0) {
                     inv.setItem(i, GuiUtils.getGuiPrevious());
                 } else {
-                    inv.setItem(i, GuiUtils.getGuiGlass());
+                    inv.setItem(i, GuiUtils.getGuiGlass(DyeColor.RED.getData()));
                 }
             } else if (i == 49) {
                 inv.setItem(i, GuiUtils.getGuiClose());

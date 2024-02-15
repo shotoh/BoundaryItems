@@ -23,7 +23,7 @@ public class AdminGui extends BoundaryGui {
             } else if (i == 22) {
                 inv.setItem(i, ItemUtils.createMiscItem("&cEnchants Editor", null, Material.ENCHANTED_BOOK, null, 1));
             } else if (i == 24) {
-                inv.setItem(i, ItemUtils.createMiscItem("&cBreaking Power Editor", null, Material.DIAMOND_PICKAXE, null, 1));
+                inv.setItem(i, ItemUtils.createMiscItem("&cBlock Editor", null, Material.DIAMOND_PICKAXE, null, 1));
             } else if (i == 40) {
                 inv.setItem(i, GuiUtils.getGuiClose());
             } else if (i < 9 || i > 35) {

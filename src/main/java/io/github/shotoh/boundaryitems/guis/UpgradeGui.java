@@ -2,6 +2,7 @@ package io.github.shotoh.boundaryitems.guis;
 
 import io.github.shotoh.boundaryitems.BoundaryItems;
 import io.github.shotoh.boundaryitems.items.BoundaryItem;
+import io.github.shotoh.boundaryitems.items.ItemManager;
 import io.github.shotoh.boundaryitems.utils.GuiUtils;
 import io.github.shotoh.boundaryitems.utils.ItemUtils;
 import io.github.shotoh.boundaryitems.utils.Utils;
@@ -47,6 +48,7 @@ public class UpgradeGui extends BoundaryGui {
             }
         }
         // todo set enchantments
+        // todo fix not removing
     }
 
     @Override
@@ -61,7 +63,7 @@ public class UpgradeGui extends BoundaryGui {
         if (!event.getInventory().equals(event.getClickedInventory())) return;
         update(event.getInventory());
         int slot = event.getSlot();
-        BoundaryItem item = ItemUtils.getItem(is);
+        BoundaryItem item = ItemManager.getInstance().getItem(is);
         if (item == null) return;
         if (slot == 22) {
             if (!item.getUpgradeInfo().canUpgrade(player, is)) {
