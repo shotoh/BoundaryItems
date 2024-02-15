@@ -42,6 +42,8 @@ public class AdminGui extends BoundaryGui {
         int slot = event.getSlot();
         if (slot == 20) {
             GuiUtils.openInventory(plugin, player, new ItemEditorGui(plugin));
+        } else if (slot == 24) {
+            GuiUtils.openInventory(plugin, player, new BlockEditorGui(plugin));
         } else if (slot == 40) {
             GuiUtils.closeInventory(plugin, player);
         }

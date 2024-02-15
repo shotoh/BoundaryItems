@@ -52,10 +52,10 @@ public class ListGui<T> extends BoundaryGui {
                 if (page < GuiUtils.getMaxPage(list)) {
                     inv.setItem(i, GuiUtils.getGuiNext());
                 } else {
-                    inv.setItem(i, GuiUtils.getGuiGlass());
+                    inv.setItem(i, GuiUtils.getGuiGlass(DyeColor.RED.getData()));
                 }
             } else {
-                inv.setItem(i, GuiUtils.getGuiGlass());
+                inv.setItem(i, GuiUtils.getGuiGlass(DyeColor.RED.getData()));
             }
         }
     }

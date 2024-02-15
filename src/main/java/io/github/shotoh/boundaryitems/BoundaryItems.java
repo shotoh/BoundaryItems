@@ -45,6 +45,7 @@ public class BoundaryItems extends JavaPlugin {
                 SenderMapper.identity()
         );
         ItemManager.getInstance().register(this);
+        BlockManager.getInstance().register(this);
         VaultIntegration.register(this);
         new BoundaryCommand(this).register();
         registerEvents(new InventoryListener());
