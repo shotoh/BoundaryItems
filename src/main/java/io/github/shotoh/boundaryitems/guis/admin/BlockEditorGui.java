@@ -20,7 +20,6 @@ public class BlockEditorGui extends ListGui<BoundaryBlock> {
         if (event.isCancelled()) return;
         super.onClick(event);
         if (event.getInventory().equals(event.getClickedInventory())) return;
-        Player player = (Player) event.getWhoClicked();
         ItemStack is = event.getCurrentItem();
         if (is == null) return;
         BlockManager.getInstance().addBlock(new BoundaryBlock(is.getType(), 0, 0, 0));
