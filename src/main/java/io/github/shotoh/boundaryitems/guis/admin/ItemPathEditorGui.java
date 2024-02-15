@@ -7,6 +7,7 @@ import io.github.shotoh.boundaryitems.items.ItemManager;
 import io.github.shotoh.boundaryitems.items.ItemPath;
 import io.github.shotoh.boundaryitems.items.UpgradeInfo;
 import io.github.shotoh.boundaryitems.utils.GuiUtils;
+import io.github.shotoh.boundaryitems.utils.Utils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -31,6 +32,10 @@ public class ItemPathEditorGui extends ListGui<BoundaryItem> {
         ItemStack is = event.getCurrentItem();
         if (is == null) return;
         GuiUtils.askInput(plugin, this, player, "&6Enter ID:", (s) -> {
+            if (ItemManager.getInstance().getItems().containsKey(s)) {
+                Utils.sendMessage(player, "&cThis item already exists!");
+                return;
+            }
             ItemManager.getInstance().addItem(new BoundaryItem(s, "N/A", is.getType(), path, 0, 0,
                     new UpgradeInfo(0, 0, 0)));
         });

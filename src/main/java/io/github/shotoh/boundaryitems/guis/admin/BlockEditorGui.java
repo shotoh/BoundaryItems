@@ -5,6 +5,7 @@ import io.github.shotoh.boundaryitems.block.BlockManager;
 import io.github.shotoh.boundaryitems.block.BoundaryBlock;
 import io.github.shotoh.boundaryitems.guis.ListGui;
 import io.github.shotoh.boundaryitems.utils.GuiUtils;
+import io.github.shotoh.boundaryitems.utils.Utils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -22,6 +23,11 @@ public class BlockEditorGui extends ListGui<BoundaryBlock> {
         if (event.getInventory().equals(event.getClickedInventory())) return;
         ItemStack is = event.getCurrentItem();
         if (is == null) return;
+        Player player = (Player) event.getWhoClicked();
+        if (BlockManager.getInstance().getBlocks().containsKey(is.getType())) {
+            Utils.sendMessage(player, "&cThis material already exists!");
+            return;
+        }
         BlockManager.getInstance().addBlock(new BoundaryBlock(is.getType(), 0, 0, 0));
     }
 
