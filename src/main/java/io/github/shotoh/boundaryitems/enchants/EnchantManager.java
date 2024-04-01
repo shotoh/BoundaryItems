@@ -1,23 +1,16 @@
 package io.github.shotoh.boundaryitems.enchants;
 
 import io.github.shotoh.boundaryitems.BoundaryItems;
-import io.github.shotoh.boundaryitems.block.BlockManager;
-import io.github.shotoh.boundaryitems.block.BoundaryBlock;
-import io.github.shotoh.boundaryitems.integrations.VaultIntegration;
 import io.github.shotoh.boundaryitems.items.BoundaryItem;
 import io.github.shotoh.boundaryitems.items.ItemManager;
 import io.github.shotoh.boundaryitems.items.ItemPath;
-import io.github.shotoh.boundaryitems.utils.ItemUtils;
 import io.github.shotoh.boundaryitems.utils.Utils;
 import io.leangen.geantyref.TypeToken;
-import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +52,12 @@ public class EnchantManager {
     public void removeBlock(BoundaryEnchant enchant) {
         if (enchant == null) return;
         enchants.remove(enchant.getEnchant());
+    }
+
+    public List<BoundaryEnchant> getPossibleEnchants(ItemStack is) {
+        BoundaryItem item = ItemManager.getInstance().getItem(is);
+        if (item == null) return null;
+        return paths.get(item.getPath()).stream().map(this::getEnchant).toList();
     }
 
     public static EnchantManager getInstance() {
