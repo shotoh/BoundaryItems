@@ -22,7 +22,6 @@ import java.util.Map;
 public class BlockManager {
     private static final BlockManager INSTANCE = new BlockManager();
     private Map<Material, BoundaryBlock> blocks;
-    private List<BoundaryBlock> blockList;
 
     private BlockManager() {
         //
@@ -39,15 +38,10 @@ public class BlockManager {
         } catch (IOException ignored) {
         }
         if (blocks == null) blocks = new HashMap<>();
-        blockList = new ArrayList<>(blocks.values());
     }
 
     public Map<Material, BoundaryBlock> getBlocks() {
         return blocks;
-    }
-
-    public List<BoundaryBlock> getBlockList() {
-        return blockList;
     }
 
     public BoundaryBlock getBlock(Material material) {
@@ -56,13 +50,11 @@ public class BlockManager {
 
     public void addBlock(BoundaryBlock block) {
         blocks.put(block.getMaterial(), block);
-        blockList.add(block);
     }
 
     public void removeBlock(BoundaryBlock block) {
         if (block == null) return;
         blocks.remove(block.getMaterial());
-        blockList.remove(block);
     }
 
     public void onBlockBreak(BlockBreakEvent event) {

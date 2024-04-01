@@ -10,10 +10,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
+
 public class BlockEditorGui extends ListGui<BoundaryBlock> {
     public BlockEditorGui(BoundaryItems plugin) {
         super(plugin, "block_editor", "Block Editor",
-                BlockManager.getInstance().getBlockList(), BoundaryBlock::createShowcase);
+                new ArrayList<>(BlockManager.getInstance().getBlocks().values()), BoundaryBlock::createShowcase);
     }
 
     @Override
@@ -28,7 +30,10 @@ public class BlockEditorGui extends ListGui<BoundaryBlock> {
             Utils.sendMessage(player, "&cThis material already exists!");
             return;
         }
-        BlockManager.getInstance().addBlock(new BoundaryBlock(is.getType(), 0, 0, 0));
+        BoundaryBlock block = new BoundaryBlock(is.getType(), 0, 0, 0);
+        list.add(block);
+        BlockManager.getInstance().addBlock(block);
+        update(event.getInventory());
     }
 
     @Override
