@@ -31,11 +31,11 @@ public class EnchantEditorGui extends ListGui<BoundaryEnchant> {
         ArrayList<Enchantment> enchants = new ArrayList<>(esm.getStoredEnchants().keySet());
         if (enchants.size() != 1) return;
         Player player = (Player) event.getWhoClicked();
-        if (EnchantManager.getInstance().getEnchants().containsKey(enchants.getFirst())) {
+        if (EnchantManager.getInstance().getEnchants().containsKey(enchants.get(0))) {
             Utils.sendMessage(player, "&cThis enchant already exists!");
             return;
         }
-        BoundaryEnchant enchant = new BoundaryEnchant(enchants.getFirst());
+        BoundaryEnchant enchant = new BoundaryEnchant(enchants.get(0));
         list.add(enchant);
         EnchantManager.getInstance().addEnchant(enchant);
         update(event.getInventory());

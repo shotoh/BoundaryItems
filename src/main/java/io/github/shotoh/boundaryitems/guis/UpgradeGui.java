@@ -58,15 +58,15 @@ public class UpgradeGui extends BoundaryGui {
         possibleEnchants = EnchantManager.getInstance().getPossibleEnchants(is);
         if (possibleEnchants == null) return;
         switch (possibleEnchants.size()) {
-            case 1 -> inv.setItem(31, possibleEnchants.getFirst().createShowcase(is));
+            case 1 -> inv.setItem(31, possibleEnchants.get(0).createShowcase(is));
             case 2 -> {
-                inv.setItem(30, possibleEnchants.getFirst().createShowcase(is));
-                inv.setItem(32, possibleEnchants.getLast().createShowcase(is));
+                inv.setItem(30, possibleEnchants.get(0).createShowcase(is));
+                inv.setItem(32, possibleEnchants.get(1).createShowcase(is));
             }
             case 3 -> {
-                inv.setItem(29, possibleEnchants.getFirst().createShowcase(is));
+                inv.setItem(29, possibleEnchants.get(0).createShowcase(is));
                 inv.setItem(31, possibleEnchants.get(1).createShowcase(is));
-                inv.setItem(33, possibleEnchants.getLast().createShowcase(is));
+                inv.setItem(33, possibleEnchants.get(2).createShowcase(is));
 
             }
         }
@@ -118,19 +118,19 @@ public class UpgradeGui extends BoundaryGui {
     private BoundaryEnchant getBoundaryEnchant(int slot) {
         BoundaryEnchant enchant = null;
         if (slot == 29 && possibleEnchants.size() == 3) {
-            enchant = possibleEnchants.getFirst();
+            enchant = possibleEnchants.get(0);
         } else if (slot == 30 && possibleEnchants.size() == 2) {
-            enchant = possibleEnchants.getFirst();
+            enchant = possibleEnchants.get(0);
         } else if (slot == 31) {
             if (possibleEnchants.size() == 1) {
-                enchant = possibleEnchants.getFirst();
+                enchant = possibleEnchants.get(0);
             } else if (possibleEnchants.size() == 3) {
                 enchant = possibleEnchants.get(1);
             }
         } else if (slot == 32 && possibleEnchants.size() == 2) {
-            enchant = possibleEnchants.getLast();
+            enchant = possibleEnchants.get(1);
         } else if (slot == 33 && possibleEnchants.size() == 3) {
-            enchant = possibleEnchants.getLast();
+            enchant = possibleEnchants.get(2);
         }
         return enchant;
     }

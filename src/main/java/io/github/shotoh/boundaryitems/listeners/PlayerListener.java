@@ -36,7 +36,7 @@ public class PlayerListener implements Listener {
         if (is == null || item == null || is.getAmount() != 1) return;
         event.setCancelled(true);
         Player player = event.getPlayer();
-        ItemUtils.removeItem(player, is, 1);
+        event.getItemDrop().remove();
         GuiUtils.openInventory(plugin, player, new UpgradeGui(plugin, player, is));
     }
 
