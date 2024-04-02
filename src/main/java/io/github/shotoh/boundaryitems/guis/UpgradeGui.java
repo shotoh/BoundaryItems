@@ -100,7 +100,7 @@ public class UpgradeGui extends BoundaryGui {
             BoundaryEnchant enchant = getBoundaryEnchant(slot);
             if (enchant == null) return;
             if (enchant.canUpgrade(player, is)) {
-                Utils.playSound(player, Sound.VILLAGER_YES, 1f, 1f);
+                Utils.playSound(player, Sound.VILLAGER_HAGGLE, 1f, 1f);
                 is = enchant.upgrade(player, is);
             } else {
                 Utils.playSound(player, Sound.ENDERMAN_HIT, 1f, 1f);
