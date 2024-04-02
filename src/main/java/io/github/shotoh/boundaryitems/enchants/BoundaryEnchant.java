@@ -80,11 +80,11 @@ public class BoundaryEnchant {
 
         List<String> lore = new ArrayList<>();
         lore.add("&6&lCurrent Level");
-        lore.add("&e" + StringUtils.capitalize(enchant.toString()) + " " + level);
+        lore.add("&e" + StringUtils.capitalize(enchant.getName()) + " " + level);
         lore.add("");
         if (level < costs.size()) {
             lore.add("&6&lNext Level");
-            lore.add("&e" + StringUtils.capitalize(enchant.toString()) + " " + level + 1);
+            lore.add("&e" + StringUtils.capitalize(enchant.getName()) + " " + (level + 1));
             lore.add("");
             lore.add("&6&lCost:");
             lore.add("&e$" + costs.get(level));
@@ -130,7 +130,7 @@ public class BoundaryEnchant {
     public ItemStack upgrade(Player player, ItemStack is) {
         int nextLevel = is.getEnchantmentLevel(enchant) + 1;
         VaultIntegration.ECONOMY.withdrawPlayer(player, costs.get(nextLevel - 1));
-        is.getEnchantments().put(enchant, nextLevel);
+        is.addUnsafeEnchantment(enchant, nextLevel);
         return NBTUtils.setNBTInteger(is, BoundaryItem.MONEY_KEY, NBTUtils.getNBTInteger(is, BoundaryItem.MONEY_KEY) + costs.get(nextLevel - 1));
     }
 }
