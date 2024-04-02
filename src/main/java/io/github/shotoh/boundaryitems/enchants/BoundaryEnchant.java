@@ -102,7 +102,7 @@ public class BoundaryEnchant {
         im.spigot().setUnbreakable(true);
 
         List<String> lore = new ArrayList<>();
-        lore.add("&7Enchant: &c" + getFormattedName());
+        lore.add("&7Enchant: &c" + enchant.getName());
         lore.add("&7Costs:");
         for (int i = 0; i < costs.size(); i++) {
             lore.add("&7" + i + " -> " + (i + 1) + ": $" + costs.get(i));
