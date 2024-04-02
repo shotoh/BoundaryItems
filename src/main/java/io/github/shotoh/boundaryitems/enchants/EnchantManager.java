@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class EnchantManager {
     private static final EnchantManager INSTANCE = new EnchantManager();
@@ -65,7 +66,7 @@ public class EnchantManager {
     public List<BoundaryEnchant> getPossibleEnchants(ItemStack is) {
         BoundaryItem item = ItemManager.getInstance().getItem(is);
         if (item == null) return null;
-        return paths.get(item.getPath()).stream().map(this::getEnchant).toList();
+        return paths.get(item.getPath()).stream().map(this::getEnchant).filter(Objects::nonNull).toList();
     }
 
     public static EnchantManager getInstance() {
