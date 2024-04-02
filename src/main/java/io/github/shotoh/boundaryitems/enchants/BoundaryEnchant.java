@@ -97,7 +97,7 @@ public class BoundaryEnchant {
         im.spigot().setUnbreakable(true);
 
         List<String> lore = new ArrayList<>();
-        lore.add("&7Enchant: &c" + enchant.toString());
+        lore.add("&7Enchant: &c" + enchant.getName());
         lore.add("&7Costs:");
         for (int i = 0; i < costs.size(); i++) {
             lore.add("&7" + i + " -> " + (i + 1) + ": $" + costs.get(i));
@@ -105,6 +105,9 @@ public class BoundaryEnchant {
         if (costs.isEmpty()) {
             lore.add("&cNone");
         }
+        lore.add("");
+        lore.add("&aRight click to edit");
+        lore.add("&cShift click to destroy");
         im.setLore(lore.stream().map(s -> Utils.color("&7" + s)).toList());
 
         is.setItemMeta(im);
