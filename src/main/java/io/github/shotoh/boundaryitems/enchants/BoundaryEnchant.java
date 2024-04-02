@@ -1,9 +1,13 @@
 package io.github.shotoh.boundaryitems.enchants;
 
+import io.github.shotoh.boundaryitems.integrations.VaultIntegration;
+import io.github.shotoh.boundaryitems.items.BoundaryItem;
+import io.github.shotoh.boundaryitems.utils.NBTUtils;
 import io.github.shotoh.boundaryitems.utils.Utils;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -52,7 +56,8 @@ public class BoundaryEnchant {
         this.costs = costs;
     }
 
-    public ItemStack createShowcase(int level) {
+    public ItemStack createShowcase(ItemStack enchantedIs) {
+        int level = enchantedIs.getEnchantmentLevel(enchant);
         ItemStack is = new ItemStack(material);
         ItemMeta im = is.getItemMeta();
         im.setDisplayName(Utils.color(name));
@@ -75,5 +80,39 @@ public class BoundaryEnchant {
 
         is.setItemMeta(im);
         return is;
+    }
+
+    public ItemStack createAdminShowcase() {
+        ItemStack is = new ItemStack(material);
+        ItemMeta im = is.getItemMeta();
+        im.setDisplayName(Utils.color(name));
+        im.spigot().setUnbreakable(true);
+
+        List<String> lore = new ArrayList<>();
+        lore.add("&7Enchant: &c" + enchant.toString());
+        lore.add("&7Costs:");
+        for (int i = 0; i < costs.size(); i++) {
+            lore.add("&7" + i + " -> " + i + 1 + ": $" + costs.get(i));
+        }
+        if (costs.isEmpty()) {
+            lore.add("&cNone");
+        }
+        im.setLore(lore.stream().map(s -> Utils.color("&7" + s)).toList());
+
+        is.setItemMeta(im);
+        return is;
+    }
+
+    public boolean canUpgrade(Player player, ItemStack is) {
+        int nextLevel = is.getEnchantmentLevel(enchant) + 1;
+        if (nextLevel >= costs.size()) return false;
+        return VaultIntegration.ECONOMY.has(player, costs.get(nextLevel - 1));
+    }
+
+    public ItemStack upgrade(Player player, ItemStack is) {
+        int nextLevel = is.getEnchantmentLevel(enchant) + 1;
+        VaultIntegration.ECONOMY.withdrawPlayer(player, costs.get(nextLevel - 1));
+        is.getEnchantments().put(enchant, nextLevel);
+        return NBTUtils.setNBTInteger(is, BoundaryItem.MONEY_KEY, NBTUtils.getNBTInteger(is, BoundaryItem.MONEY_KEY) + costs.get(nextLevel - 1));
     }
 }
