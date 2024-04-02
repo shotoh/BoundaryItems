@@ -5,6 +5,8 @@ import com.google.gson.GsonBuilder;
 import io.github.shotoh.boundaryitems.block.BlockManager;
 import io.github.shotoh.boundaryitems.block.BoundaryBlock;
 import io.github.shotoh.boundaryitems.core.BoundaryCommand;
+import io.github.shotoh.boundaryitems.enchants.BoundaryEnchant;
+import io.github.shotoh.boundaryitems.enchants.EnchantManager;
 import io.github.shotoh.boundaryitems.integrations.VaultIntegration;
 import io.github.shotoh.boundaryitems.items.BoundaryItem;
 import io.github.shotoh.boundaryitems.items.ItemManager;
@@ -14,6 +16,7 @@ import io.github.shotoh.boundaryitems.utils.Utils;
 import io.leangen.geantyref.TypeToken;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -46,6 +49,7 @@ public class BoundaryItems extends JavaPlugin {
         );
         ItemManager.getInstance().register(this);
         BlockManager.getInstance().register(this);
+        EnchantManager.getInstance().register(this);
         VaultIntegration.register(this);
         new BoundaryCommand(this).register();
         registerEvents(new InventoryListener());
@@ -62,6 +66,11 @@ public class BoundaryItems extends JavaPlugin {
         try (FileWriter writer = new FileWriter(Utils.getFile(this, "blocks.json"))) {
             GSON.toJson(BlockManager.getInstance().getBlocks(), new TypeToken<Map<Material, BoundaryBlock>>(){}.getType(), writer);
             LOGGER.info("Saved blocks to file!");
+        } catch (IOException ignored) {
+        }
+        try (FileWriter writer = new FileWriter(Utils.getFile(this, "enchants.json"))) {
+            GSON.toJson(EnchantManager.getInstance().getEnchants(), new TypeToken<Map<Enchantment, BoundaryEnchant>>(){}.getType(), writer);
+            LOGGER.info("Saved enchants to file!");
         } catch (IOException ignored) {
         }
     }
