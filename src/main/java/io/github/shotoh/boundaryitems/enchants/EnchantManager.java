@@ -49,7 +49,7 @@ public class EnchantManager {
         enchants.put(enchant.getEnchant(), enchant);
     }
 
-    public void removeBlock(BoundaryEnchant enchant) {
+    public void removeEnchant(BoundaryEnchant enchant) {
         if (enchant == null) return;
         enchants.remove(enchant.getEnchant());
     }
