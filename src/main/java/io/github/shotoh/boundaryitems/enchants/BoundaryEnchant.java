@@ -28,6 +28,13 @@ public class BoundaryEnchant {
         this.costs = Collections.emptyList();
     }
 
+    public BoundaryEnchant(Enchantment enchant, String name, Material material, List<Integer> costs) {
+        this.enchant = enchant;
+        this.name = name;
+        this.material = material;
+        this.costs = costs;
+    }
+
     public Enchantment getEnchant() {
         return enchant;
     }

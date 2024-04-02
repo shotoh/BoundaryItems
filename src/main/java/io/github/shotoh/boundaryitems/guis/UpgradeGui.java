@@ -67,7 +67,6 @@ public class UpgradeGui extends BoundaryGui {
                 inv.setItem(29, possibleEnchants.get(0).createShowcase(is));
                 inv.setItem(31, possibleEnchants.get(1).createShowcase(is));
                 inv.setItem(33, possibleEnchants.get(2).createShowcase(is));
-
             }
         }
         // todo fix not removing

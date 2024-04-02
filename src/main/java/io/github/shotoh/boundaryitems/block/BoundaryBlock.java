@@ -21,6 +21,13 @@ public class BoundaryBlock {
         this.blockExp = 0;
     }
 
+    public BoundaryBlock(Material material, int breakingPower, int blockPrice, int blockExp) {
+        this.material = material;
+        this.breakingPower = breakingPower;
+        this.blockPrice = blockPrice;
+        this.blockExp = blockExp;
+    }
+
     public Material getMaterial() {
         return material;
     }
