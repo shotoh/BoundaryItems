@@ -1,6 +1,8 @@
 package io.github.shotoh.boundaryitems.guis;
 
 import io.github.shotoh.boundaryitems.BoundaryItems;
+import io.github.shotoh.boundaryitems.enchants.BoundaryEnchant;
+import io.github.shotoh.boundaryitems.enchants.EnchantManager;
 import io.github.shotoh.boundaryitems.items.BoundaryItem;
 import io.github.shotoh.boundaryitems.items.ItemManager;
 import io.github.shotoh.boundaryitems.utils.GuiUtils;
@@ -8,6 +10,7 @@ import io.github.shotoh.boundaryitems.utils.ItemUtils;
 import io.github.shotoh.boundaryitems.utils.Utils;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -15,14 +18,19 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UpgradeGui extends BoundaryGui {
     private final Player player;
     private ItemStack is;
+    private List<BoundaryEnchant> possibleEnchants;
 
     public UpgradeGui(BoundaryItems plugin, Player player, ItemStack is) {
         super(plugin, "upgrade", "Upgrade");
         this.player = player;
         this.is = is;
+        this.possibleEnchants = new ArrayList<>();
     }
 
     @Override
@@ -47,13 +55,22 @@ public class UpgradeGui extends BoundaryGui {
                 inv.setItem(i, GuiUtils.getGuiGlass(DyeColor.PURPLE.getData()));
             }
         }
-        // todo set enchantments
-        // todo fix not removing
-    }
+        possibleEnchants = EnchantManager.getInstance().getPossibleEnchants(is);
+        if (possibleEnchants == null) return;
+        switch (possibleEnchants.size()) {
+            case 1 -> inv.setItem(31, possibleEnchants.getFirst().createShowcase(is));
+            case 2 -> {
+                inv.setItem(30, possibleEnchants.getFirst().createShowcase(is));
+                inv.setItem(32, possibleEnchants.getLast().createShowcase(is));
+            }
+            case 3 -> {
+                inv.setItem(29, possibleEnchants.getFirst().createShowcase(is));
+                inv.setItem(31, possibleEnchants.get(1).createShowcase(is));
+                inv.setItem(33, possibleEnchants.getLast().createShowcase(is));
 
-    @Override
-    public void onOpen(InventoryOpenEvent event) {
-        super.onOpen(event);
+            }
+        }
+        // todo fix not removing
     }
 
     @Override
@@ -75,11 +92,20 @@ public class UpgradeGui extends BoundaryGui {
                 Utils.sendMessage(player, "&cYou already have the max ascension!");
                 return;
             }
-            is = null;
-            ItemUtils.addItem(player, upgradeIs, 1);
+            is = upgradeIs;
             GuiUtils.closeInventory(plugin, player);
         } else if (slot == 49) {
             GuiUtils.closeInventory(plugin, player);
+        } else {
+            if (possibleEnchants == null) return;
+            BoundaryEnchant enchant = getBoundaryEnchant(slot);
+            if (enchant == null) return;
+            if (enchant.canUpgrade(player, is)) {
+                Utils.playSound(player, Sound.VILLAGER_YES, 1f, 1f);
+                is = enchant.upgrade(player, is);
+            } else {
+                Utils.playSound(player, Sound.ENDERMAN_HIT, 1f, 1f);
+            }
         }
     }
 
@@ -87,5 +113,25 @@ public class UpgradeGui extends BoundaryGui {
     public void onClose(InventoryCloseEvent event) {
         super.onClose(event);
         ItemUtils.addItem(player, is, 1);
+    }
+
+    private BoundaryEnchant getBoundaryEnchant(int slot) {
+        BoundaryEnchant enchant = null;
+        if (slot == 29 && possibleEnchants.size() == 3) {
+            enchant = possibleEnchants.getFirst();
+        } else if (slot == 30 && possibleEnchants.size() == 2) {
+            enchant = possibleEnchants.getFirst();
+        } else if (slot == 31) {
+            if (possibleEnchants.size() == 1) {
+                enchant = possibleEnchants.getFirst();
+            } else if (possibleEnchants.size() == 3) {
+                enchant = possibleEnchants.get(1);
+            }
+        } else if (slot == 32 && possibleEnchants.size() == 2) {
+            enchant = possibleEnchants.getLast();
+        } else if (slot == 33 && possibleEnchants.size() == 3) {
+            enchant = possibleEnchants.getLast();
+        }
+        return enchant;
     }
 }
