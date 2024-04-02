@@ -14,10 +14,11 @@ public class BoundaryBlock {
     private int blockPrice;
     private int blockExp;
 
-    public BoundaryBlock(Material material, int breakingPower, int blockPrice, int blockExp) {
+    public BoundaryBlock(Material material) {
         this.material = material;
-        this.breakingPower = breakingPower;
-        this.blockPrice = blockPrice;
+        this.breakingPower = 0;
+        this.blockPrice = 0;
+        this.blockExp = 0;
     }
 
     public Material getMaterial() {

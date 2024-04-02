@@ -30,7 +30,7 @@ public class BlockEditorGui extends ListGui<BoundaryBlock> {
             Utils.sendMessage(player, "&cThis material already exists!");
             return;
         }
-        BoundaryBlock block = new BoundaryBlock(is.getType(), 0, 0, 0);
+        BoundaryBlock block = new BoundaryBlock(is.getType());
         list.add(block);
         BlockManager.getInstance().addBlock(block);
         update(event.getInventory());
