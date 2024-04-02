@@ -16,6 +16,7 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Map;
 import java.util.UUID;
@@ -32,13 +33,19 @@ public class PlayerListener implements Listener {
     public void onPlayerDropItemEvent(PlayerDropItemEvent event) {
         if (event.isCancelled()) return;
         event.setCancelled(true);
-        Player player = event.getPlayer();
-        ItemStack is = player.getItemInHand();
-        BoundaryItem item = ItemManager.getInstance().getItem(is);
-        if (is == null || item == null || is.getAmount() != 1) return;
-        is = is.clone();
-        player.setItemInHand(null);
-        GuiUtils.openInventory(plugin, player, new UpgradeGui(plugin, player, is));
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Player player = event.getPlayer();
+                if (player == null) return;
+                ItemStack is = player.getItemInHand();
+                BoundaryItem item = ItemManager.getInstance().getItem(is);
+                if (is == null || item == null || is.getAmount() != 1) return;
+                is = is.clone();
+                player.setItemInHand(null);
+                GuiUtils.openInventory(plugin, player, new UpgradeGui(plugin, player, is));
+            }
+        }.runTaskLater(plugin, 1);
     }
 
     @EventHandler
