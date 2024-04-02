@@ -37,7 +37,7 @@ import java.util.logging.Logger;
 public class BoundaryItems extends JavaPlugin {
     public static final Logger LOGGER = Logger.getLogger("BoundaryItems");
     public static final Gson GSON = new GsonBuilder().setPrettyPrinting()
-            .registerTypeAdapter(Enchantment.class, new EnchantmentTypeAdapter()).create();
+            .registerTypeHierarchyAdapter(Enchantment.class, new EnchantmentTypeAdapter()).create();
     public static final Map<UUID, Consumer<AsyncPlayerChatEvent>> INPUTS = new HashMap<>();
 
     private BukkitCommandManager<CommandSender> commandManager;
