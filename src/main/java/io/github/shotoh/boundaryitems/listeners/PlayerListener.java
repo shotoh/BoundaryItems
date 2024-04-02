@@ -31,11 +31,11 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerDropItemEvent(PlayerDropItemEvent event) {
         if (event.isCancelled()) return;
+        event.setCancelled(true);
         Player player = event.getPlayer();
         ItemStack is = player.getItemInHand();
         BoundaryItem item = ItemManager.getInstance().getItem(is);
         if (is == null || item == null || is.getAmount() != 1) return;
-        event.setCancelled(true);
         is = is.clone();
         player.setItemInHand(null);
         GuiUtils.openInventory(plugin, player, new UpgradeGui(plugin, player, is));

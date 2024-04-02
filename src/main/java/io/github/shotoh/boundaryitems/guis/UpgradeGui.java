@@ -102,6 +102,8 @@ public class UpgradeGui extends BoundaryGui {
             if (enchant.canUpgrade(player, is)) {
                 Utils.playSound(player, Sound.VILLAGER_HAGGLE, 1f, 1f);
                 is = enchant.upgrade(player, is);
+                BoundaryItem.setLore(item, is);
+                update(event.getInventory());
             } else {
                 Utils.playSound(player, Sound.ENDERMAN_HIT, 1f, 1f);
             }
