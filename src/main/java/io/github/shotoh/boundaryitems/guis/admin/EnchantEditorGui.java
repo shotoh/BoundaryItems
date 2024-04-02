@@ -47,7 +47,7 @@ public class EnchantEditorGui extends ListGui<BoundaryEnchant> {
     public void onListClick(InventoryClickEvent event, int index) {
         Player player = (Player) event.getWhoClicked();
         if (event.isRightClick()) {
-            //GuiUtils.openInventory(plugin, player, new SpecificBlockEditorGui(plugin, list.get(index)));
+            GuiUtils.openInventory(plugin, player, new SpecificEnchantEditorGui(plugin, list.get(index)));
         } else if (event.isShiftClick()) {
             EnchantManager.getInstance().removeEnchant(list.remove(index));
             update(event.getInventory());

@@ -56,6 +56,14 @@ public class BoundaryEnchant {
         this.costs = costs;
     }
 
+    public String[] getCostsShowcase() {
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < costs.size(); i++) {
+            list.add(i + " -> " + (i + 1) + ": $" + costs.get(i));
+        }
+        return list.toArray(new String[] {});
+    }
+
     public ItemStack createShowcase(ItemStack enchantedIs) {
         int level = enchantedIs.getEnchantmentLevel(enchant);
         ItemStack is = new ItemStack(material);
@@ -92,7 +100,7 @@ public class BoundaryEnchant {
         lore.add("&7Enchant: &c" + enchant.toString());
         lore.add("&7Costs:");
         for (int i = 0; i < costs.size(); i++) {
-            lore.add("&7" + i + " -> " + i + 1 + ": $" + costs.get(i));
+            lore.add("&7" + i + " -> " + (i + 1) + ": $" + costs.get(i));
         }
         if (costs.isEmpty()) {
             lore.add("&cNone");
