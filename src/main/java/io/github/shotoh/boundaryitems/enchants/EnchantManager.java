@@ -18,7 +18,15 @@ import java.util.Map;
 public class EnchantManager {
     private static final EnchantManager INSTANCE = new EnchantManager();
     private Map<Enchantment, BoundaryEnchant> enchants;
-    private Map<ItemPath, List<Enchantment>> paths;
+    private final Map<ItemPath, List<Enchantment>> paths = Map.of(
+            ItemPath.WEAPON, List.of(Enchantment.DAMAGE_ALL, Enchantment.FIRE_ASPECT, Enchantment.KNOCKBACK),
+            ItemPath.PICKAXE, List.of(Enchantment.DIG_SPEED, Enchantment.LOOT_BONUS_BLOCKS),
+            ItemPath.ROD, List.of(Enchantment.LURE, Enchantment.LUCK),
+            ItemPath.HELMET, List.of(Enchantment.PROTECTION_ENVIRONMENTAL, Enchantment.PROTECTION_FIRE, Enchantment.THORNS),
+            ItemPath.CHESTPLATE, List.of(Enchantment.PROTECTION_ENVIRONMENTAL, Enchantment.PROTECTION_FIRE, Enchantment.THORNS),
+            ItemPath.LEGGINGS, List.of(Enchantment.PROTECTION_ENVIRONMENTAL, Enchantment.PROTECTION_FIRE, Enchantment.THORNS),
+            ItemPath.BOOTS, List.of(Enchantment.PROTECTION_ENVIRONMENTAL, Enchantment.PROTECTION_FIRE, Enchantment.THORNS)
+    );
 
     private EnchantManager() {
         //
