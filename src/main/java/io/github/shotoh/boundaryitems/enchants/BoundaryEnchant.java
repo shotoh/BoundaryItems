@@ -5,6 +5,7 @@ import io.github.shotoh.boundaryitems.items.BoundaryItem;
 import io.github.shotoh.boundaryitems.utils.NBTUtils;
 import io.github.shotoh.boundaryitems.utils.Utils;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -56,6 +57,10 @@ public class BoundaryEnchant {
         this.costs = costs;
     }
 
+    private String getFormattedName() {
+        return StringUtils.capitalize(ChatColor.stripColor(Utils.color(name)));
+    }
+
     public String[] getCostsShowcase() {
         List<String> list = new ArrayList<>();
         for (int i = 0; i < costs.size(); i++) {
@@ -73,11 +78,11 @@ public class BoundaryEnchant {
 
         List<String> lore = new ArrayList<>();
         lore.add("&6&lCurrent Level");
-        lore.add("&e" + StringUtils.capitalize(enchant.getName()) + " " + level);
+        lore.add("&e" + getFormattedName() + " " + level);
         lore.add("");
         if (level < costs.size()) {
             lore.add("&6&lNext Level");
-            lore.add("&e" + StringUtils.capitalize(enchant.getName()) + " " + (level + 1));
+            lore.add("&e" + getFormattedName() + " " + (level + 1));
             lore.add("");
             lore.add("&6&lCost:");
             lore.add("&e$" + costs.get(level));
@@ -97,7 +102,7 @@ public class BoundaryEnchant {
         im.spigot().setUnbreakable(true);
 
         List<String> lore = new ArrayList<>();
-        lore.add("&7Enchant: &c" + enchant.getName());
+        lore.add("&7Enchant: &c" + getFormattedName());
         lore.add("&7Costs:");
         for (int i = 0; i < costs.size(); i++) {
             lore.add("&7" + i + " -> " + (i + 1) + ": $" + costs.get(i));
@@ -116,7 +121,7 @@ public class BoundaryEnchant {
 
     public boolean canUpgrade(Player player, ItemStack is) {
         int nextLevel = is.getEnchantmentLevel(enchant) + 1;
-        if (nextLevel >= costs.size()) return false;
+        if (nextLevel > costs.size()) return false;
         return VaultIntegration.ECONOMY.has(player, costs.get(nextLevel - 1));
     }
 
