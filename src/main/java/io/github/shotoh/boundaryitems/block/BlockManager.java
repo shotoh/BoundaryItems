@@ -9,6 +9,7 @@ import io.github.shotoh.boundaryitems.utils.ItemUtils;
 import io.github.shotoh.boundaryitems.utils.Utils;
 import io.leangen.geantyref.TypeToken;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 
@@ -68,8 +69,9 @@ public class BlockManager {
         if (item == null || (item.getPath() == ItemPath.PICKAXE && item.getItemStat() < block.getBreakingPower())) return;
         event.setCancelled(false);
         event.getBlock().setType(Material.AIR);
-        event.setExpToDrop(block.getBlockExp());
-        VaultIntegration.ECONOMY.depositPlayer(player, block.getBlockPrice());
+        double multiplier = 1 + (player.getItemInHand().getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) * 0.1);
+        event.setExpToDrop((int) (block.getBlockExp() * multiplier));
+        VaultIntegration.ECONOMY.depositPlayer(player, (int) (block.getBlockPrice() * multiplier));
     }
 
     public static BlockManager getInstance() {
