@@ -5,6 +5,7 @@ import io.github.shotoh.boundaryitems.integrations.VaultIntegration;
 import io.github.shotoh.boundaryitems.items.BoundaryItem;
 import io.github.shotoh.boundaryitems.items.ItemManager;
 import io.github.shotoh.boundaryitems.items.ItemPath;
+import io.github.shotoh.boundaryitems.utils.ExperienceUtils;
 import io.github.shotoh.boundaryitems.utils.ItemUtils;
 import io.github.shotoh.boundaryitems.utils.Utils;
 import io.leangen.geantyref.TypeToken;
@@ -62,15 +63,14 @@ public class BlockManager {
         if (event.isCancelled()) return;
         Player player = event.getPlayer();
         if (player.hasPermission("bi.admin")) return;
+        event.setCancelled(true);
         BoundaryBlock block = getBlock(event.getBlock().getType());
         if (block == null) return;
-        event.setCancelled(true);
         BoundaryItem item = ItemManager.getInstance().getItem(player.getItemInHand());
         if (item == null || (item.getPath() == ItemPath.PICKAXE && item.getItemStat() < block.getBreakingPower())) return;
-        event.setCancelled(false);
         event.getBlock().setType(Material.AIR);
         double multiplier = 1 + (player.getItemInHand().getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) * 0.1);
-        event.setExpToDrop((int) (block.getBlockExp() * multiplier));
+        ExperienceUtils.changeExp(player, (int) (block.getBlockExp() * multiplier));
         VaultIntegration.ECONOMY.depositPlayer(player, (int) (block.getBlockPrice() * multiplier));
     }
 
