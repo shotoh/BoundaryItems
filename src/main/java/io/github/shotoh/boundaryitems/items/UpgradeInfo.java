@@ -43,7 +43,7 @@ public class UpgradeInfo {
     public boolean canUpgrade(Player player, ItemStack is) {
         int moneySpent = NBTUtils.getNBTInteger(is, BoundaryItem.MONEY_KEY);
         if (moneySpent < moneyCost) return false;
-        if (player.getExpToLevel() < levelCost) return false;
+        if (player.getLevel() < levelCost) return false;
         for (int enchantLevel : is.getEnchantments().values()) {
             if (enchantLevel >= enchantCost) return true;
         }
