@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.bukkit.BukkitCommandManager;
+import org.incendo.cloud.bukkit.parser.selector.SinglePlayerSelectorParser;
 import org.incendo.cloud.key.CloudKey;
 import org.incendo.cloud.parser.standard.IntegerParser;
 import org.incendo.cloud.parser.standard.StringParser;
@@ -50,9 +51,7 @@ public class BoundaryCommand {
         manager.command(builder.literal("gui")
                 .permission("bi.admin")
                 .senderType(Player.class)
-                .handler(ctx -> {
-                    GuiUtils.openInventory(plugin, ctx.sender(), new AdminGui(plugin));
-                }));
+                .handler(ctx -> GuiUtils.openInventory(plugin, ctx.sender(), new AdminGui(plugin))));
         manager.command(builder.literal("money")
                 .permission("bi.admin")
                 .senderType(Player.class)
@@ -69,6 +68,18 @@ public class BoundaryCommand {
                     } else {
                         Utils.sendMessage(player, "&cInvalid item");
                     }
+                }));
+        manager.command(builder.literal("remove")
+                .permission("bi.admin")
+                .senderType(CommandSender.class)
+                .required("target", SinglePlayerSelectorParser.singlePlayerSelectorParser())
+                .optional("amount", IntegerParser.integerComponent()
+                        .parser(IntegerParser.integerParser(1, 64)))
+                .handler(ctx -> {
+                    Player target = ctx.get(CloudKey.of("target", Player.class));
+                    int amount = ctx.getOrDefault(CloudKey.of("amount", Integer.class), 1);
+                    ItemStack is = target.getItemInHand();
+                    ItemUtils.removeItem(target, is, amount);
                 }));
     }
 }
