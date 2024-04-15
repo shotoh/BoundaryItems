@@ -2,8 +2,8 @@ package io.github.shotoh.boundaryitems;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import io.github.shotoh.boundaryitems.block.BlockManager;
-import io.github.shotoh.boundaryitems.block.BoundaryBlock;
+import io.github.shotoh.boundaryitems.blocks.BlockManager;
+import io.github.shotoh.boundaryitems.blocks.BoundaryBlock;
 import io.github.shotoh.boundaryitems.core.BoundaryCommand;
 import io.github.shotoh.boundaryitems.core.ChannelCommand;
 import io.github.shotoh.boundaryitems.enchants.BoundaryEnchant;

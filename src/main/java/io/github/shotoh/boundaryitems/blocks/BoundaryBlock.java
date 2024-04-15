@@ -1,4 +1,4 @@
-package io.github.shotoh.boundaryitems.block;
+package io.github.shotoh.boundaryitems.blocks;
 
 import io.github.shotoh.boundaryitems.utils.Utils;
 import org.bukkit.Material;

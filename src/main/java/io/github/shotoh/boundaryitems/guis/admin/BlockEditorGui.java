@@ -1,8 +1,8 @@
 package io.github.shotoh.boundaryitems.guis.admin;
 
 import io.github.shotoh.boundaryitems.BoundaryItems;
-import io.github.shotoh.boundaryitems.block.BlockManager;
-import io.github.shotoh.boundaryitems.block.BoundaryBlock;
+import io.github.shotoh.boundaryitems.blocks.BlockManager;
+import io.github.shotoh.boundaryitems.blocks.BoundaryBlock;
 import io.github.shotoh.boundaryitems.guis.ListGui;
 import io.github.shotoh.boundaryitems.utils.GuiUtils;
 import io.github.shotoh.boundaryitems.utils.Utils;

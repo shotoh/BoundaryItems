@@ -1,4 +1,4 @@
-package io.github.shotoh.boundaryitems.block;
+package io.github.shotoh.boundaryitems.blocks;
 
 import io.github.shotoh.boundaryitems.BoundaryItems;
 import io.github.shotoh.boundaryitems.integrations.VaultIntegration;
@@ -6,7 +6,6 @@ import io.github.shotoh.boundaryitems.items.BoundaryItem;
 import io.github.shotoh.boundaryitems.items.ItemManager;
 import io.github.shotoh.boundaryitems.items.ItemPath;
 import io.github.shotoh.boundaryitems.utils.ExperienceUtils;
-import io.github.shotoh.boundaryitems.utils.ItemUtils;
 import io.github.shotoh.boundaryitems.utils.Utils;
 import io.leangen.geantyref.TypeToken;
 import org.bukkit.Material;
@@ -16,9 +15,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class BlockManager {
