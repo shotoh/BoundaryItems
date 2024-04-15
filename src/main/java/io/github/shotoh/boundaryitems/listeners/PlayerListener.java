@@ -2,6 +2,7 @@ package io.github.shotoh.boundaryitems.listeners;
 
 import io.github.shotoh.boundaryitems.BoundaryItems;
 import io.github.shotoh.boundaryitems.block.BlockManager;
+import io.github.shotoh.boundaryitems.features.LockChat;
 import io.github.shotoh.boundaryitems.guis.UpgradeGui;
 import io.github.shotoh.boundaryitems.items.BoundaryItem;
 import io.github.shotoh.boundaryitems.items.ItemManager;
@@ -61,7 +62,9 @@ public class PlayerListener implements Listener {
         if (inputs.containsKey(uuid)) {
             inputs.get(uuid).accept(event);
             inputs.remove(uuid);
+            event.setCancelled(true);
         }
+        LockChat.getInstance().onAsyncPlayerChat(event);
     }
 
     @EventHandler
