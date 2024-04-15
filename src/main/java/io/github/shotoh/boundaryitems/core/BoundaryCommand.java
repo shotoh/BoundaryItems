@@ -1,6 +1,8 @@
 package io.github.shotoh.boundaryitems.core;
 
 import io.github.shotoh.boundaryitems.BoundaryItems;
+import io.github.shotoh.boundaryitems.consumables.BoundaryConsumable;
+import io.github.shotoh.boundaryitems.consumables.ConsumableManager;
 import io.github.shotoh.boundaryitems.guis.admin.AdminGui;
 import io.github.shotoh.boundaryitems.items.BoundaryItem;
 import io.github.shotoh.boundaryitems.items.ItemManager;
@@ -93,6 +95,22 @@ public class BoundaryCommand {
                     ItemUtils.removeItem(target, is, 1);
                     player.getInventory().addItem(ItemUtils.setUUID(is, target.getUniqueId()));
                     Utils.sendMessage(player, "&bLOCKED&7 item");
+                }));
+        manager.command(builder.literal("consumable")
+                .required("id", StringParser.stringComponent()
+                        .suggestionProvider(SuggestionProvider.suggestingStrings(ConsumableManager.getInstance().getConsumables().keySet())))
+                .permission(PredicatePermission.of(sender -> Utils.isShotoh((Player) sender)))
+                .senderType(Player.class)
+                .handler(ctx -> {
+                    Player player = ctx.sender();
+                    String id = ctx.get(CloudKey.of("id", String.class));
+                    BoundaryConsumable consumable = ConsumableManager.getInstance().getConsumable(id);
+                    if (consumable != null) {
+                        ItemUtils.addItem(player, ItemUtils.createItem(id), 1);
+                        Utils.sendMessage(player, "&bCreating &d" + consumable.getName());
+                    } else {
+                        Utils.sendMessage(player, "&cUnknown item id: " + id);
+                    }
                 }));
     }
 }
