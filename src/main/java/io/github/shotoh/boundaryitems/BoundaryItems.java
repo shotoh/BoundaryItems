@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.github.shotoh.boundaryitems.blocks.BlockManager;
 import io.github.shotoh.boundaryitems.blocks.BoundaryBlock;
+import io.github.shotoh.boundaryitems.consumables.ConsumableManager;
 import io.github.shotoh.boundaryitems.core.BoundaryCommand;
 import io.github.shotoh.boundaryitems.core.ChannelCommand;
 import io.github.shotoh.boundaryitems.enchants.BoundaryEnchant;
@@ -54,6 +55,7 @@ public class BoundaryItems extends JavaPlugin {
         ItemManager.getInstance().register(this);
         BlockManager.getInstance().register(this);
         EnchantManager.getInstance().register(this);
+        ConsumableManager.getInstance().register(this);
         VaultIntegration.register(this);
         new BoundaryCommand(this).register();
         new ChannelCommand(this).register();

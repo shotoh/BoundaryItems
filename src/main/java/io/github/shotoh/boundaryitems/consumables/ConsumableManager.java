@@ -28,6 +28,8 @@ public class ConsumableManager {
         this.plugin = plugin;
         this.consumables = new HashMap<>();
         this.cooldowns = new HashMap<>();
+
+        addConsumable(new Frigidflask(plugin));
     }
 
     public Map<String, BoundaryConsumable> getConsumables() {

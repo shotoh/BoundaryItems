@@ -21,6 +21,7 @@ dependencies {
         exclude("org.bukkit")
     }
     implementation("org.incendo:cloud-paper:2.0.0-beta.2")
+    implementation("xyz.xenondevs:particle:1.8.4")
 }
 
 tasks.getByName<Test>("test") {
