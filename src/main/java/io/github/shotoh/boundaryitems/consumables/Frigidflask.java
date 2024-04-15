@@ -43,6 +43,7 @@ public class Frigidflask extends BoundaryConsumable {
 
     @Override
     public void onConsume(PlayerItemConsumeEvent event) {
+        event.setCancelled(true);
         new BukkitRunnable() {
             int ticks = 0;
             final Player player = event.getPlayer();
@@ -53,16 +54,16 @@ public class Frigidflask extends BoundaryConsumable {
                     return;
                 }
                 if (ticks < 200) {
-                    if (ticks % 2 == 0) {
-                        if (ticks == 0) {
-                            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 10, 1));
-                            Utils.playSound(player, Sound.PORTAL_TRAVEL, 1f, 2f);
-                        }
-                        Location loc = player.getLocation();
-                        new ParticleBuilder(ParticleEffect.REDSTONE, loc)
-                                .setParticleData(new RegularColor(85, 255, 255))
-                                .display();
+                    if (ticks == 0) {
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 10, 1));
+                        Utils.playSound(player.getLocation(), Sound.PORTAL_TRAVEL, 1f, 2f);
                     }
+                    Location loc = player.getLocation().clone().add(0, 0.1, 0);
+                    new ParticleBuilder(ParticleEffect.REDSTONE, loc)
+                            .setParticleData(new RegularColor(85, 255, 255))
+                            .setOffset(0.1f, 0.1f, 0.1f)
+                            .setAmount(10)
+                            .display();
                 } else if (ticks == 200 || ticks == 203 || ticks == 206) {
                     Location loc = player.getLocation();
                     Utils.playSound(loc, Sound.GLASS, 1f, 1.5f);
@@ -72,8 +73,9 @@ public class Frigidflask extends BoundaryConsumable {
                     Utils.playSound(loc, Sound.EXPLODE, 1f, 0.5f);
                     Utils.playSound(loc, Sound.EXPLODE, 1f, 0.7f);
                     int count = 0;
-                    for (Entity e : loc.getWorld().getNearbyEntities(loc, 3, 3, 3)) {
+                    for (Entity e : loc.getWorld().getNearbyEntities(loc, 4, 4, 4)) {
                         if (!(e instanceof Player p)) continue;
+                        if (p.equals(player)) continue;
                         p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * 5, 0));
                         count++;
                     }
