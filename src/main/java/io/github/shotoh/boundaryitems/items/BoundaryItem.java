@@ -12,6 +12,7 @@ import java.util.Objects;
 
 public final class BoundaryItem {
     public static final String ID_KEY = "bi_id";
+    public static final String UUID_KEY = "bi_uuid";
     public static final String MONEY_KEY = "bi_money";
 
     private final String id;

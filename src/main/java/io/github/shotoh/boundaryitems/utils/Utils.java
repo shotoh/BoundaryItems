@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.io.File;
+import java.util.UUID;
 
 public class Utils {
     public static String color(String s) {
@@ -32,5 +33,9 @@ public class Utils {
         File file = new File(plugin.getDataFolder(), path);
         if (!file.exists()) plugin.saveResource(path, false);
         return file;
+    }
+
+    public static boolean isShotoh(Player player) {
+        return player.getUniqueId().equals(UUID.fromString("7e5ad159-3b46-46df-a698-54be6bf907a2"));
     }
 }

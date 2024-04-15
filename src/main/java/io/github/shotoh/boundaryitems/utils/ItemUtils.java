@@ -8,10 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ItemUtils {
     public static ItemStack createItem(String id) {
@@ -65,5 +62,19 @@ public class ItemUtils {
         list.add(cloneIs);
         player.getInventory().removeItem(list.toArray(new ItemStack[]{}));
         player.updateInventory();
+    }
+
+    public static UUID getUUID(ItemStack is) {
+        String uuid = NBTUtils.getNBTString(is, BoundaryItem.UUID_KEY);
+        if (uuid == null) return null;
+        try {
+            return UUID.fromString(uuid);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static ItemStack setUUID(ItemStack is, UUID uuid) {
+        return NBTUtils.setNBTString(is, BoundaryItem.UUID_KEY, uuid.toString());
     }
 }
