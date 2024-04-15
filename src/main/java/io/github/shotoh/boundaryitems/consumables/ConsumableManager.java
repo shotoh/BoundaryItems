@@ -5,14 +5,14 @@ import io.github.shotoh.boundaryitems.items.BoundaryItem;
 import io.github.shotoh.boundaryitems.utils.ItemUtils;
 import io.github.shotoh.boundaryitems.utils.NBTUtils;
 import io.github.shotoh.boundaryitems.utils.Utils;
-import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class ConsumableManager {
     private static final ConsumableManager INSTANCE = new ConsumableManager();
