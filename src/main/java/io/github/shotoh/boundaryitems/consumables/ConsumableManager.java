@@ -1,18 +1,33 @@
 package io.github.shotoh.boundaryitems.consumables;
 
-import java.util.HashMap;
-import java.util.Map;
+import io.github.shotoh.boundaryitems.BoundaryItems;
+import io.github.shotoh.boundaryitems.items.BoundaryItem;
+import io.github.shotoh.boundaryitems.utils.ItemUtils;
+import io.github.shotoh.boundaryitems.utils.NBTUtils;
+import io.github.shotoh.boundaryitems.utils.Utils;
+import org.bukkit.Bukkit;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.*;
 
 public class ConsumableManager {
     private static final ConsumableManager INSTANCE = new ConsumableManager();
-    private final Map<String, BoundaryConsumable> consumables;
+    private BoundaryItems plugin;
+    private Map<String, BoundaryConsumable> consumables;
+    private Map<UUID, Long> cooldowns;
 
     private ConsumableManager() {
-        this.consumables = new HashMap<>();
+        //
     }
 
-    public void register() {
-        //
+    public void register(BoundaryItems plugin) {
+        this.plugin = plugin;
+        this.consumables = new HashMap<>();
+        this.cooldowns = new HashMap<>();
     }
 
     public Map<String, BoundaryConsumable> getConsumables() {
@@ -30,6 +45,32 @@ public class ConsumableManager {
     public void removeBlock(BoundaryConsumable consumable) {
         if (consumable == null) return;
         consumables.remove(consumable.getId());
+    }
+
+    public void checkConsumable(PlayerItemConsumeEvent event) {
+        Player player = event.getPlayer();
+        ItemStack is = event.getItem();
+        String id = NBTUtils.getNBTString(is, BoundaryItem.ID_KEY);
+        for (BoundaryConsumable consumable : consumables.values()) {
+            if (!consumable.getId().equals(id)) continue;
+            if (Utils.isShotoh(player)) {
+                consumable.onConsume(event);
+                return;
+            }
+            UUID uuid = ItemUtils.getUUID(is);
+            if (uuid != null && uuid.equals(player.getUniqueId())) {
+                if (!Utils.checkCooldown(cooldowns, uuid, consumable.getCooldown())) {
+                    Utils.sendMessage(player, "&cYou are still on cooldown! (" + Utils.formatCooldown(cooldowns, uuid) + "s)");
+                    return;
+                }
+                consumable.onConsume(event);
+            } else {
+                ItemUtils.removeItem(player, is, is.getAmount());
+                Utils.sendMessage(player, "&c&lYOU ARE UNWORTHY.");
+                Utils.playSound(player, Sound.WITHER_IDLE, 1f, 0.5f);
+            }
+            return;
+        }
     }
 
     public static ConsumableManager getInstance() {
