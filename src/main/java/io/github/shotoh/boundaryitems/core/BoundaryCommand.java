@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.bukkit.BukkitCommandManager;
-import org.incendo.cloud.bukkit.parser.selector.SinglePlayerSelectorParser;
+import org.incendo.cloud.bukkit.parser.PlayerParser;
 import org.incendo.cloud.key.CloudKey;
 import org.incendo.cloud.parser.standard.IntegerParser;
 import org.incendo.cloud.parser.standard.StringParser;
@@ -75,7 +75,7 @@ public class BoundaryCommand {
         manager.command(builder.literal("remove")
                 .permission("bi.admin")
                 .senderType(CommandSender.class)
-                .required("target", SinglePlayerSelectorParser.singlePlayerSelectorParser())
+                .required("target", PlayerParser.playerParser())
                 .optional("amount", IntegerParser.integerComponent()
                         .parser(IntegerParser.integerParser(1, 64)))
                 .handler(ctx -> {
@@ -87,7 +87,7 @@ public class BoundaryCommand {
         manager.command(builder.literal("lock")
                 .permission(PredicatePermission.of(sender -> Utils.isShotoh((Player) sender)))
                 .senderType(Player.class)
-                .required("target", SinglePlayerSelectorParser.singlePlayerSelectorParser())
+                .required("target", PlayerParser.playerParser())
                 .handler(ctx -> {
                     Player player = ctx.sender();
                     Player target = ctx.get(CloudKey.of("target", Player.class));
@@ -106,7 +106,7 @@ public class BoundaryCommand {
                     String id = ctx.get(CloudKey.of("id", String.class));
                     BoundaryConsumable consumable = ConsumableManager.getInstance().getConsumable(id);
                     if (consumable != null) {
-                        ItemUtils.addItem(player, ItemUtils.createItem(id), 1);
+                        ItemUtils.addItem(player, consumable.create(1), 1);
                         Utils.sendMessage(player, "&bCreating &d" + consumable.getName());
                     } else {
                         Utils.sendMessage(player, "&cUnknown item id: " + id);
