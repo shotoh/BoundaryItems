@@ -17,6 +17,7 @@ import org.incendo.cloud.bukkit.parser.selector.SinglePlayerSelectorParser;
 import org.incendo.cloud.key.CloudKey;
 import org.incendo.cloud.parser.standard.IntegerParser;
 import org.incendo.cloud.parser.standard.StringParser;
+import org.incendo.cloud.permission.PredicatePermission;
 import org.incendo.cloud.suggestion.SuggestionProvider;
 
 public class BoundaryCommand {
@@ -80,6 +81,18 @@ public class BoundaryCommand {
                     int amount = ctx.getOrDefault(CloudKey.of("amount", Integer.class), 1);
                     ItemStack is = target.getItemInHand();
                     ItemUtils.removeItem(target, is, amount);
+                }));
+        manager.command(builder.literal("lock")
+                .permission(PredicatePermission.of(sender -> Utils.isShotoh((Player) sender)))
+                .senderType(Player.class)
+                .required("target", SinglePlayerSelectorParser.singlePlayerSelectorParser())
+                .handler(ctx -> {
+                    Player player = ctx.sender();
+                    Player target = ctx.get(CloudKey.of("target", Player.class));
+                    ItemStack is = player.getItemInHand();
+                    ItemUtils.removeItem(target, is, 1);
+                    player.getInventory().addItem(ItemUtils.setUUID(is, target.getUniqueId()));
+                    Utils.sendMessage(player, "&bLOCKED&7 item");
                 }));
     }
 }
