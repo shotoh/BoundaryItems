@@ -60,12 +60,10 @@ public class BlockManager {
         if (event.isCancelled()) return;
         Player player = event.getPlayer();
         if (player.hasPermission("bi.admin")) return;
-        event.setCancelled(true);
         BoundaryBlock block = getBlock(event.getBlock().getType());
         if (block == null) return;
         BoundaryItem item = ItemManager.getInstance().getItem(player.getItemInHand());
         if (item == null || (item.getPath() == ItemPath.PICKAXE && item.getItemStat() < block.getBreakingPower())) return;
-        event.getBlock().setType(Material.AIR);
         ExperienceUtils.changeExp(player, block.getBlockExp());
         double multiplier = 1 + (player.getItemInHand().getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) * 0.1);
         VaultIntegration.ECONOMY.depositPlayer(player, (int) (block.getBlockPrice() * multiplier));
