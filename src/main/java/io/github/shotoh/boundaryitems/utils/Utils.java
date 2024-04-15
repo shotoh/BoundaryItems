@@ -8,6 +8,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.io.File;
+import java.text.DecimalFormat;
+import java.util.Map;
 import java.util.UUID;
 
 public class Utils {
@@ -37,5 +39,23 @@ public class Utils {
 
     public static boolean isShotoh(Player player) {
         return player.getUniqueId().equals(UUID.fromString("7e5ad159-3b46-46df-a698-54be6bf907a2"));
+    }
+
+    public static boolean checkCooldown(Map<UUID, Long> cooldowns, UUID uuid, double abilityCooldown) {
+        Long cooldown = cooldowns.get(uuid);
+        if (cooldown == null || cooldown < System.currentTimeMillis()) {
+            setCooldown(cooldowns, uuid, abilityCooldown);
+            return true;
+        }
+        return false;
+    }
+
+    public static String formatCooldown(Map<UUID, Long> cooldowns, UUID uuid) {
+        DecimalFormat df = new DecimalFormat("0.##");
+        return df.format((cooldowns.get(uuid) - System.currentTimeMillis()) / 1000);
+    }
+
+    public static void setCooldown(Map<UUID, Long> cooldowns, UUID uuid, double abilityCooldown) {
+        cooldowns.put(uuid, (long) (System.currentTimeMillis() + (abilityCooldown * 1000L)));
     }
 }

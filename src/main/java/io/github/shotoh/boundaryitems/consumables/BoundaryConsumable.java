@@ -17,14 +17,16 @@ public abstract class BoundaryConsumable {
     protected String name;
     protected String[] lore;
     protected Material material;
+    protected double cooldown;
 
-    public BoundaryConsumable(BoundaryItems plugin, String id, String name, String[] lore, Material material) {
+    public BoundaryConsumable(BoundaryItems plugin, String id, String name, String[] lore, Material material, double cooldown) {
         this.plugin = plugin;
         this.id = id;
         this.name = name;
         this.lore = new String[] {};
         if (lore != null) this.lore = lore;
         this.material = material;
+        this.cooldown = cooldown;
     }
 
     public BoundaryItems getPlugin() {
@@ -57,6 +59,14 @@ public abstract class BoundaryConsumable {
 
     public void setMaterial(Material material) {
         this.material = material;
+    }
+
+    public double getCooldown() {
+        return cooldown;
+    }
+
+    public void setCooldown(double cooldown) {
+        this.cooldown = cooldown;
     }
 
     public ItemStack create(int amount) {
