@@ -67,8 +67,7 @@ public class ConsumableManager {
                 }
                 consumable.onConsume(event);
             } else {
-                ItemUtils.removeItem(player, is, is.getAmount());
-                Utils.sendMessage(player, "&c&lYOU ARE UNWORTHY.");
+                Utils.sendMessage(player, "&c&lTHIS IS NOT YOURS TO USE.");
                 Utils.playSound(player, Sound.WITHER_IDLE, 1f, 0.5f);
             }
             return;
