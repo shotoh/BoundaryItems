@@ -56,7 +56,7 @@ public class Frigidflask extends BoundaryConsumable {
                 if (ticks < 200) {
                     if (ticks == 0) {
                         player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 10, 1));
-                        Utils.playSound(player.getLocation(), Sound.PORTAL_TRAVEL, 1f, 2f);
+                        Utils.playSound(player.getLocation(), Sound.PORTAL_TRAVEL, 0.5f, 2f);
                     }
                     Location loc = player.getLocation().clone().add(0, 0.1, 0);
                     new ParticleBuilder(ParticleEffect.REDSTONE, loc)
@@ -66,12 +66,12 @@ public class Frigidflask extends BoundaryConsumable {
                             .display();
                 } else if (ticks == 200 || ticks == 203 || ticks == 206) {
                     Location loc = player.getLocation();
-                    Utils.playSound(loc, Sound.GLASS, 1f, 1.5f);
+                    Utils.playSound(loc, Sound.GLASS, 0.5f, 1.5f);
                 } else if (ticks == 209) {
                     Location loc = player.getLocation();
-                    Utils.playSound(loc, Sound.GLASS, 1f, 0.5f);
-                    Utils.playSound(loc, Sound.EXPLODE, 1f, 0.5f);
-                    Utils.playSound(loc, Sound.EXPLODE, 1f, 0.7f);
+                    Utils.playSound(loc, Sound.GLASS, 0.5f, 0.5f);
+                    Utils.playSound(loc, Sound.EXPLODE, 0.5f, 0.5f);
+                    Utils.playSound(loc, Sound.EXPLODE, 0.5f, 0.7f);
                     int count = 0;
                     for (Entity e : loc.getWorld().getNearbyEntities(loc, 4, 4, 4)) {
                         if (!(e instanceof Player p)) continue;
