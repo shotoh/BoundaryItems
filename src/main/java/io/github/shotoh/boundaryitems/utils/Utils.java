@@ -37,7 +37,8 @@ public class Utils {
         return file;
     }
 
-    public static boolean isShotoh(Player player) {
+    public static boolean isShotoh(CommandSender sender) {
+        if (!(sender instanceof Player player)) return false;
         return player.getUniqueId().equals(UUID.fromString("7e5ad159-3b46-46df-a698-54be6bf907a2"));
     }
 

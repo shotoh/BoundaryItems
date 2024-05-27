@@ -85,7 +85,7 @@ public class BoundaryCommand {
                     ItemUtils.removeItem(target, is, amount);
                 }));
         manager.command(builder.literal("lock")
-                .permission(PredicatePermission.of(sender -> Utils.isShotoh((Player) sender)))
+                .permission(PredicatePermission.of(Utils::isShotoh))
                 .senderType(Player.class)
                 .required("target", PlayerParser.playerParser())
                 .handler(ctx -> {
@@ -99,7 +99,7 @@ public class BoundaryCommand {
         manager.command(builder.literal("consumable")
                 .required("id", StringParser.stringComponent()
                         .suggestionProvider(SuggestionProvider.suggestingStrings(ConsumableManager.getInstance().getConsumables().keySet())))
-                .permission(PredicatePermission.of(sender -> Utils.isShotoh((Player) sender)))
+                .permission(PredicatePermission.of(Utils::isShotoh))
                 .senderType(Player.class)
                 .handler(ctx -> {
                     Player player = ctx.sender();
