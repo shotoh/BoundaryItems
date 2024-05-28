@@ -8,6 +8,8 @@ import org.bukkit.Material;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.Potion;
+import org.bukkit.potion.PotionType;
 
 import java.util.Arrays;
 
@@ -18,8 +20,9 @@ public abstract class BoundaryConsumable {
     protected String[] lore;
     protected Material material;
     protected double cooldown;
+    protected PotionType type;
 
-    public BoundaryConsumable(BoundaryItems plugin, String id, String name, String[] lore, Material material, double cooldown) {
+    public BoundaryConsumable(BoundaryItems plugin, String id, String name, String[] lore, Material material, double cooldown, PotionType type) {
         this.plugin = plugin;
         this.id = id;
         this.name = name;
@@ -27,6 +30,7 @@ public abstract class BoundaryConsumable {
         if (lore != null) this.lore = lore;
         this.material = material;
         this.cooldown = cooldown;
+        this.type = type;
     }
 
     public BoundaryItems getPlugin() {
@@ -69,8 +73,16 @@ public abstract class BoundaryConsumable {
         this.cooldown = cooldown;
     }
 
-    public ItemStack create(int amount) {
-        ItemStack is = new ItemStack(material, amount);
+    public PotionType getType() {
+        return type;
+    }
+
+    public void setType(PotionType type) {
+        this.type = type;
+    }
+
+    public ItemStack create() {
+        ItemStack is = new Potion(type).toItemStack(1);
         ItemMeta im = is.getItemMeta();
         im.setDisplayName(Utils.color(name));
         im.setLore(Arrays.stream(lore).map(Utils::color).toList());

@@ -106,7 +106,7 @@ public class BoundaryCommand {
                     String id = ctx.get(CloudKey.of("id", String.class));
                     BoundaryConsumable consumable = ConsumableManager.getInstance().getConsumable(id);
                     if (consumable != null) {
-                        ItemUtils.addItem(player, consumable.create(1), 1);
+                        ItemUtils.addItem(player, consumable.create(), 1);
                         Utils.sendMessage(player, "&bCreating &d" + consumable.getName());
                     } else {
                         Utils.sendMessage(player, "&cUnknown item id: " + id);

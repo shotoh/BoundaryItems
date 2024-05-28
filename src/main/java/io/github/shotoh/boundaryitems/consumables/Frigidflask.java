@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionType;
 import org.bukkit.scheduler.BukkitRunnable;
 import xyz.xenondevs.particle.ParticleBuilder;
 import xyz.xenondevs.particle.ParticleEffect;
@@ -29,16 +30,7 @@ public class Frigidflask extends BoundaryConsumable {
                 "&7Hitting &b2+&7 players with the",
                 "&7shockwave will refresh the &bSpeed",
                 "&7duration."
-        }, Material.POTION, 30);
-    }
-
-    @Override
-    public ItemStack create(int amount) {
-        ItemStack is = super.create(amount);
-        PotionMeta pm = (PotionMeta) is.getItemMeta();
-        pm.setMainEffect(PotionEffectType.SPEED);
-        is.setItemMeta(pm);
-        return is;
+        }, Material.POTION, 30, PotionType.SPEED);
     }
 
     @Override
