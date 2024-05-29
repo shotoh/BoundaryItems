@@ -28,7 +28,6 @@ import org.incendo.cloud.permission.PredicatePermission;
 import org.incendo.cloud.suggestion.SuggestionProvider;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
