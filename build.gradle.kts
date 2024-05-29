@@ -22,7 +22,7 @@ dependencies {
     }
     implementation("org.incendo:cloud-paper:2.0.0-beta.2")
     implementation("xyz.xenondevs:particle:1.8.4")
-    implementation("com.github.ConnorLinfoot:TitleAPI:1.8.1")
+    compileOnly("com.github.ConnorLinfoot:TitleAPI:1.8.1")
 }
 
 tasks.getByName<Test>("test") {
