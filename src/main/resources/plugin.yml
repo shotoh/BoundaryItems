@@ -1,3 +1,5 @@
 name: BoundaryItems
 version: 1.0.5
 main: io.github.shotoh.boundaryitems.BoundaryItems
+depend:
+  - TitleAPI
