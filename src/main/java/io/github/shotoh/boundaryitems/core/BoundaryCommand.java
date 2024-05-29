@@ -136,17 +136,16 @@ public class BoundaryCommand {
                             target = players.get(random);
                             if (target == null) this.cancel();
                             for (Player p : players) {
-                                TitleAPI.sendTitle(p, 0, 5, 0, Utils.color("&c" + target.getDisplayName()), "");
+                                TitleAPI.sendTitle(p, 0, 6, 0, Utils.color("&c" + target.getDisplayName()), "");
                                 Utils.playSound(p, Sound.NOTE_PLING, 0.5f, 1f);
                             }
                         } else if (ticks == 160) {
                             List<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
                             for (Player p : players) {
-                                TitleAPI.sendTitle(p, 0, 5, 0, Utils.color("&a" + target.getDisplayName()), "");
+                                TitleAPI.sendTitle(p, 0, 20, 0, Utils.color("&a" + target.getDisplayName()), "");
                                 Utils.playSound(p, Sound.NOTE_PLING, 0.5f, 2f);
                             }
                             Location loc = target.getLocation();
-                            Utils.playSound(loc, Sound.PORTAL_TRIGGER, 0.5f, 1.25f);
                             Utils.playSound(loc, Sound.EXPLODE, 0.5f, 0.5f);
                             Utils.playSound(loc, Sound.AMBIENCE_THUNDER, 0.5f, 1f);
                             loc.getWorld().strikeLightningEffect(loc);
