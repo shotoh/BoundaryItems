@@ -42,6 +42,10 @@ public class Utils {
         return player.getUniqueId().equals(UUID.fromString("7e5ad159-3b46-46df-a698-54be6bf907a2"));
     }
 
+    public static void execute(Player player) {
+        player.damage(9999);
+    }
+
     public static boolean checkCooldown(Map<UUID, Long> cooldowns, UUID uuid, double abilityCooldown) {
         Long cooldown = cooldowns.get(uuid);
         if (cooldown == null || cooldown < System.currentTimeMillis()) {

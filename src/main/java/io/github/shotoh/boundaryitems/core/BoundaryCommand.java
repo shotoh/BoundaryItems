@@ -1,5 +1,6 @@
 package io.github.shotoh.boundaryitems.core;
 
+import com.connorlinfoot.titleapi.TitleAPI;
 import io.github.shotoh.boundaryitems.BoundaryItems;
 import io.github.shotoh.boundaryitems.consumables.BoundaryConsumable;
 import io.github.shotoh.boundaryitems.consumables.ConsumableManager;
@@ -10,9 +11,13 @@ import io.github.shotoh.boundaryitems.utils.GuiUtils;
 import io.github.shotoh.boundaryitems.utils.ItemUtils;
 import io.github.shotoh.boundaryitems.utils.NBTUtils;
 import io.github.shotoh.boundaryitems.utils.Utils;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.bukkit.BukkitCommandManager;
 import org.incendo.cloud.bukkit.parser.PlayerParser;
@@ -21,6 +26,11 @@ import org.incendo.cloud.parser.standard.IntegerParser;
 import org.incendo.cloud.parser.standard.StringParser;
 import org.incendo.cloud.permission.PredicatePermission;
 import org.incendo.cloud.suggestion.SuggestionProvider;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class BoundaryCommand {
     private final BoundaryItems plugin;
@@ -112,5 +122,38 @@ public class BoundaryCommand {
                         Utils.sendMessage(player, "&cUnknown item id: " + id);
                     }
                 }));
+        manager.command(builder.literal("roulette")
+                .permission("bi.admin")
+                .senderType(Player.class)
+                .handler(ctx -> new BukkitRunnable() {
+                    int ticks = 0;
+                    Player target = null;
+                    @Override
+                    public void run() {
+                        if (ticks < 160 && ticks % 5 == 0) {
+                            List<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
+                            int random = ThreadLocalRandom.current().nextInt(players.size());
+                            target = players.get(random);
+                            if (target == null) this.cancel();
+                            for (Player p : players) {
+                                TitleAPI.sendTitle(p, 0, 5, 0, Utils.color("&c" + target.getDisplayName()), "");
+                                Utils.playSound(p, Sound.NOTE_PLING, 0.5f, 1f);
+                            }
+                        } else if (ticks == 160) {
+                            List<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
+                            for (Player p : players) {
+                                TitleAPI.sendTitle(p, 0, 5, 0, Utils.color("&a" + target.getDisplayName()), "");
+                                Utils.playSound(p, Sound.NOTE_PLING, 0.5f, 2f);
+                            }
+                            Location loc = target.getLocation();
+                            Utils.playSound(loc, Sound.PORTAL_TRIGGER, 0.5f, 1.25f);
+                            Utils.playSound(loc, Sound.EXPLODE, 0.5f, 0.5f);
+                            Utils.playSound(loc, Sound.AMBIENCE_THUNDER, 0.5f, 1f);
+                            loc.getWorld().strikeLightningEffect(loc);
+                            Utils.execute(target);
+                        }
+                        ticks++;
+                    }
+                }.runTaskTimer(plugin, 0, 1)));
     }
 }
