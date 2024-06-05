@@ -47,15 +47,19 @@ public class BoundaryCommand {
         manager.command(builder.literal("item")
                 .required("id", StringParser.stringComponent()
                         .suggestionProvider(SuggestionProvider.suggestingStrings(ItemManager.getInstance().getItems().keySet())))
+                .optional("target", PlayerParser.playerParser())
                 .permission("bi.admin")
                 .senderType(Player.class)
                 .handler(ctx -> {
                     Player player = ctx.sender();
+                    Player target = ctx.getOrDefault(CloudKey.of("target", Player.class), null);
+                    if (target == null) target = player;
                     String id = ctx.get(CloudKey.of("id", String.class));
                     BoundaryItem item = ItemManager.getInstance().getItem(id);
                     if (item != null) {
-                        ItemUtils.addItem(player, ItemUtils.createItem(id), 1);
+                        ItemUtils.addItem(target, ItemUtils.createItem(id), 1);
                         Utils.sendMessage(player, "&bCreating &d" + item.getName());
+                        target.updateInventory();
                     } else {
                         Utils.sendMessage(player, "&cUnknown item id: " + id);
                     }
@@ -77,6 +81,7 @@ public class BoundaryCommand {
                         ItemStack editedIs = NBTUtils.setNBTInteger(is, BoundaryItem.MONEY_KEY, amount);
                         ItemUtils.removeItem(player, is, 1);
                         ItemUtils.addItem(player, editedIs, 1);
+                        player.updateInventory();
                     } else {
                         Utils.sendMessage(player, "&cInvalid item");
                     }
@@ -117,6 +122,7 @@ public class BoundaryCommand {
                     if (consumable != null) {
                         ItemUtils.addItem(player, consumable.create(), 1);
                         Utils.sendMessage(player, "&bCreating &d" + consumable.getName());
+                        player.updateInventory();
                     } else {
                         Utils.sendMessage(player, "&cUnknown item id: " + id);
                     }
