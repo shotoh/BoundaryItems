@@ -49,19 +49,26 @@ public class BoundaryCommand {
                         .suggestionProvider(SuggestionProvider.suggestingStrings(ItemManager.getInstance().getItems().keySet())))
                 .optional("target", PlayerParser.playerParser())
                 .permission("bi.admin")
-                .senderType(Player.class)
+                .senderType(CommandSender.class)
                 .handler(ctx -> {
-                    Player player = ctx.sender();
+                    CommandSender sender = ctx.sender();
                     Player target = ctx.getOrDefault(CloudKey.of("target", Player.class), null);
-                    if (target == null) target = player;
+                    if (target == null) {
+                        if (sender instanceof Player) {
+                            target = (Player) sender;
+                        } else {
+                            Utils.sendMessage(sender, "&cCannot create for console!");
+                            return;
+                        }
+                    }
                     String id = ctx.get(CloudKey.of("id", String.class));
                     BoundaryItem item = ItemManager.getInstance().getItem(id);
                     if (item != null) {
                         ItemUtils.addItem(target, ItemUtils.createItem(id), 1);
-                        Utils.sendMessage(player, "&bCreating &d" + item.getName());
+                        Utils.sendMessage(sender, "&bCreating &d" + item.getName());
                         target.updateInventory();
                     } else {
-                        Utils.sendMessage(player, "&cUnknown item id: " + id);
+                        Utils.sendMessage(sender, "&cUnknown item id: " + id);
                     }
                 }));
         manager.command(builder.literal("gui")
