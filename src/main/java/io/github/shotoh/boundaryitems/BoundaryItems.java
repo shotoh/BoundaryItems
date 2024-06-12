@@ -43,7 +43,7 @@ public class BoundaryItems extends JavaPlugin {
             .registerTypeAdapter(Enchantment.class, new EnchantmentTypeAdapter()).create();
     public static final Map<UUID, Consumer<AsyncPlayerChatEvent>> INPUTS = new HashMap<>();
 
-    private BukkitCommandManager<CommandSender> commandManager;
+    private PaperCommandManager<CommandSender> commandManager;
 
     @Override
     public void onEnable() {

@@ -76,9 +76,9 @@ public class BoundaryCommand {
                 .senderType(Player.class)
                 .handler(ctx -> GuiUtils.openInventory(plugin, ctx.sender(), new AdminGui(plugin))));
         manager.command(builder.literal("money")
+                .required("amount", IntegerParser.integerParser())
                 .permission("bi.admin")
                 .senderType(Player.class)
-                .required("amount", IntegerParser.integerParser())
                 .handler(ctx -> {
                     Player player = ctx.sender();
                     int amount = ctx.get(CloudKey.of("amount", Integer.class));
@@ -94,11 +94,11 @@ public class BoundaryCommand {
                     }
                 }));
         manager.command(builder.literal("remove")
-                .permission("bi.admin")
-                .senderType(CommandSender.class)
                 .required("target", PlayerParser.playerParser())
                 .optional("amount", IntegerParser.integerComponent()
                         .parser(IntegerParser.integerParser(1, 64)))
+                .permission("bi.admin")
+                .senderType(CommandSender.class)
                 .handler(ctx -> {
                     Player target = ctx.get(CloudKey.of("target", Player.class));
                     int amount = ctx.getOrDefault(CloudKey.of("amount", Integer.class), 1);
@@ -106,9 +106,9 @@ public class BoundaryCommand {
                     ItemUtils.removeItem(target, is, amount);
                 }));
         manager.command(builder.literal("lock")
+                .required("target", PlayerParser.playerParser())
                 .permission(PredicatePermission.of(Utils::isShotoh))
                 .senderType(Player.class)
-                .required("target", PlayerParser.playerParser())
                 .handler(ctx -> {
                     Player player = ctx.sender();
                     Player target = ctx.get(CloudKey.of("target", Player.class));
